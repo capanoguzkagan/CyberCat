@@ -46,12 +46,18 @@ public class GameManager : MonoBehaviour
 		if (Input.GetMouseButtonDown (0)) {
 			startPoint = cam.ScreenToWorldPoint(Input.mousePosition);
 			isDragging = true;
-			Shooting();
 		}
 		if (Input.GetMouseButtonUp (0)) {
+			if (startPoint == endPoint)
+			{
+				Shooting();
+			}
 			isDragging = false;
-			startPoint = endPoint;
-			OnDragEnd ();
+			OnDragEnd();
+			force = Vector2.zero;
+			startPoint = Vector2.zero;
+			endPoint = Vector2.zero;
+
 		}
 		if (isDragging)
 		{
@@ -73,7 +79,7 @@ public class GameManager : MonoBehaviour
 	void OnDrag ()
 	{
 		trajectory.Show();
-		endPoint = cam.ScreenToWorldPoint (Input.mousePosition);
+		//endPoint = cam.ScreenToWorldPoint (Input.mousePosition);
 		distance = Vector2.Distance (startPoint, endPoint);
 		direction = (startPoint - endPoint).normalized;
 		force = direction * distance * pushForce;
