@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] Transform firePoint;
 	[SerializeField] GameObject Bullet;
 	[SerializeField] float bulletForce = 20f;
+	public bool isGround;
 	#endregion
 
 
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
 	{
 		if (Input.GetMouseButtonDown (0)) {
 			startPoint = cam.ScreenToWorldPoint(Input.mousePosition);
-			isDragging = true;
+				isDragging = true;
 		}
 		if (Input.GetMouseButtonUp (0)) {
 			if (startPoint == endPoint)
@@ -69,25 +70,20 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	void OnDragStart ()
-	{
-		startPoint = cam.ScreenToWorldPoint (Input.mousePosition);
-
-	//	trajectory.Show ();
-	}
-
 	void OnDrag ()
 	{
-		trajectory.Show();
-		//endPoint = cam.ScreenToWorldPoint (Input.mousePosition);
-		distance = Vector2.Distance (startPoint, endPoint);
-		direction = (startPoint - endPoint).normalized;
-		force = direction * distance * pushForce;
+		if (isGround)
+		{
+			trajectory.Show();
+			distance = Vector2.Distance(startPoint, endPoint);
+			direction = (startPoint - endPoint).normalized;
+			force = direction * distance * pushForce;
 
-		//just for debug
-		Debug.DrawLine (startPoint, endPoint);
+			//just for debug
+			Debug.DrawLine(startPoint, endPoint);
 
-		trajectory.velocity=new Vector2(force.x,force.y);
+			trajectory.velocity = new Vector2(force.x, force.y);
+		}
 	}
 
 	void OnDragEnd ()

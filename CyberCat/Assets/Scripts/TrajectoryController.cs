@@ -11,6 +11,11 @@ public class TrajectoryController : MonoBehaviour
 	public LineRenderer line;
 	[Range(2, 30)]
 	public int resolution;
+	public GameObject ArrowR;
+	Vector3 ArrowRightScale;
+	public GameObject ArrowL;
+	Vector3 ArrowLeftScale;
+	float ArrowSize;
 
 	[Header("Formula variables")]
 	public Vector2 velocity;
@@ -22,14 +27,30 @@ public class TrajectoryController : MonoBehaviour
 	public int linecastResolution;
 	public LayerMask canHit;
 
+
 	private void Start()
 	{
 		g = Mathf.Abs(Physics2D.gravity.y);
+		ArrowRightScale = ArrowR.transform.localScale;
+		ArrowLeftScale = ArrowL.transform.localScale;
 	}
 
 	private void Update()
 	{
 		StartCoroutine(RenderArc());
+		ArrowSize = velocity.x /5;
+		if (ArrowSize>=2)
+		{
+			ArrowSize = 2;
+		}
+		else if(ArrowSize<=0.7f&&ArrowSize>=-0.7f)
+		{
+			ArrowSize = 0;
+		}
+		if (velocity.y < 3)
+		{
+			velocity.y = 0;
+		}
 	}
 
 	private IEnumerator RenderArc()
@@ -102,13 +123,66 @@ public class TrajectoryController : MonoBehaviour
 	}
 	public void Show()
 	{
-		_TrajectoryLine.SetActive(true);
-		Time.timeScale = 0.1f;
-		Time.fixedDeltaTime = 0.02F * Time.timeScale;
+		if (velocity.y<3&& velocity.x>0)
+		{
+			ArrowRight();
+			Time.timeScale = 0.1f;
+			Time.fixedDeltaTime = 0.02F * Time.timeScale;
+		}
+		else if (velocity.y < 3 && velocity.x < 0)
+		{
+			ArrowLeft();
+			Time.timeScale = 0.1f;
+			Time.fixedDeltaTime = 0.02F * Time.timeScale;
+		}
+		else
+		{
+			_TrajectoryLine.SetActive(true);
+			ArrowR.SetActive(false);
+			ArrowR.transform.localScale = ArrowRightScale;
+			ArrowL.SetActive(false);
+			ArrowL.transform.localScale = ArrowLeftScale;
+			Time.timeScale = 0.1f;
+			Time.fixedDeltaTime = 0.02F * Time.timeScale;
+		}
 	}
 	public void Hide()
 	{
+		ArrowR.SetActive(false);
+		ArrowR.transform.localScale = ArrowRightScale;
+		ArrowL.SetActive(false);
+		ArrowL.transform.localScale = ArrowLeftScale;
 		_TrajectoryLine.SetActive(false);
 		Time.timeScale = 1f;
+	}
+	private void ArrowRight()
+	{
+		ArrowR.SetActive(true);
+		ArrowR.transform.localScale = new Vector3(ArrowSize, ArrowR.transform.localScale.y);
+		ArrowL.SetActive(false);
+		ArrowL.transform.localScale = ArrowLeftScale;
+		_TrajectoryLine.SetActive(false);
+	}
+	private void ArrowLeft()
+	{
+		ArrowL.SetActive(true);
+		ArrowL.transform.localScale = new Vector3(ArrowSize*-1, ArrowL.transform.localScale.y);
+		ArrowR.SetActive(false);
+		ArrowR.transform.localScale = ArrowRightScale;
+		_TrajectoryLine.SetActive(false);
+	}
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.layer == 6)
+		{
+		GameManager.Instance.isGround = true;
+		}
+	}
+	private void OnCollisionExit2D(Collision2D collision)
+	{
+		if (collision.gameObject.layer == 6)
+		{
+			GameManager.Instance.isGround = false;
+		}
 	}
 }
