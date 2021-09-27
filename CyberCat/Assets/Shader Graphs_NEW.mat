@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Cubemap_dc4df7366af0433bb88c78e5720c4370:
-        m_Texture: {fileID: 8900000, guid: a1c1cfd1ebfb50649b8fdad5cd00b75c, type: 2}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
