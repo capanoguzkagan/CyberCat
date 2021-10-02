@@ -1,0 +1,79 @@
+{
+    "name": "PlayerInput",
+    "maps": [
+        {
+            "name": "DialogInputController",
+            "id": "6b1a32c2-3be9-4b02-a637-47d20e85bc0f",
+            "actions": [
+                {
+                    "name": "Touch",
+                    "type": "Value",
+                    "id": "fde0df9c-777a-4443-83dd-bbfc62a6a7db",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Keyboard",
+                    "type": "Button",
+                    "id": "b7780d35-f7dc-440f-b8e7-3f6661398269",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0ceae0e0-fb55-48fa-b9d3-46fe089a2a06",
+                    "path": "<Touchscreen>/primaryTouch",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "acf72d84-3380-4bd0-ac5a-9649925d2a3b",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Keyboard",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PlayerMovementController",
+            "id": "d87d888e-ff86-4ed0-816d-6c6bccb8428d",
+            "actions": [
+                {
+                    "name": "PlayerMovementControl",
+                    "type": "Value",
+                    "id": "0a592ac2-e92e-47af-ab47-7a840825eb01",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ae00aaaa-2804-4675-82d4-ed3ca6f9673e",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerMovementControl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
