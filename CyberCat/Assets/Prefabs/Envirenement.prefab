@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 5.889764, y: 0.5333865}
+  m_Size: {x: 0.7111111, y: 0.7111111}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -100,7 +101,7 @@ BoxCollider2D:
     border: {x: 0.094444446, y: 0.094444446, z: 0.094444446, w: 0.094444446}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.7111111, y: 0.7111111}
-    newSize: {x: 5.889764, y: 0.5333865}
+    newSize: {x: 0.7111111, y: 0.7111111}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0
@@ -188,6 +189,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -217,7 +219,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 0.5427328, y: 5.4154577}
+  m_Size: {x: 0.7111111, y: 0.7111111}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -241,7 +243,7 @@ BoxCollider2D:
     border: {x: 0.094444446, y: 0.094444446, z: 0.094444446, w: 0.094444446}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.7111111, y: 0.7111111}
-    newSize: {x: 0.5427328, y: 5.4154577}
+    newSize: {x: 0.7111111, y: 0.7111111}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0
@@ -296,6 +298,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -325,7 +328,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 0.9379481, y: 0.8588567}
+  m_Size: {x: 0.7111111, y: 0.7111111}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -349,7 +352,7 @@ BoxCollider2D:
     border: {x: 0.094444446, y: 0.094444446, z: 0.094444446, w: 0.094444446}
     pivot: {x: 0.5, y: 0.5}
     oldSize: {x: 0.7111111, y: 0.7111111}
-    newSize: {x: 0.9379481, y: 0.8588567}
+    newSize: {x: 0.7111111, y: 0.7111111}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
     adaptiveTiling: 0

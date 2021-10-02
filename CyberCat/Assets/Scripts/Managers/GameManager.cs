@@ -7,9 +7,10 @@ public class GameManager : MonoBehaviour
 
 	public static GameManager Instance;
 
-	void Awake ()
+	void Awake()
 	{
-		if (Instance == null) {
+		if (Instance == null)
+		{
 			Instance = this;
 		}
 	}
@@ -41,19 +42,20 @@ public class GameManager : MonoBehaviour
 
 
 
-	void Start ()
+	void Start()
 	{
 		cam = Camera.main;
 	}
 
-	void Update ()
+	void Update()
 	{
 
-		if (Input.GetMouseButtonDown (0)) {
-		//	startPoint = cam.ScreenToWorldPoint(Input.mousePosition);
-				isDragging = true;
+		if (trajectory._playerInput.PlayerMovementController.Press.triggered)
+		{
+			isDragging = true;
 		}
-		if (Input.GetMouseButtonUp (0)) {
+		if (trajectory._playerInput.PlayerMovementController.Release.triggered)
+		{
 			if (startPoint == endPoint)
 			{
 				Shooting();
@@ -68,35 +70,35 @@ public class GameManager : MonoBehaviour
 		if (isDragging)
 		{
 
-			endPoint = trajectory._endPoint*2.2f;
+			endPoint = trajectory._endPoint * 2.2f;
 		}
-		if (((int)startPoint.x-(int)endPoint.x)!= 0|| ((int)startPoint.y - (int)endPoint.y)!=0) 
+		if (((int)startPoint.x - (int)endPoint.x) != 0 || ((int)startPoint.y - (int)endPoint.y) != 0)
 		{
 			OnDrag();
 		}
 	}
 
-	void OnDrag ()
+	void OnDrag()
 	{
 		if (isGround)
 		{
 			trajectory.Show();
 			distance = Vector2.Distance(startPoint, endPoint);
-			direction = (startPoint - endPoint).normalized;
+			direction = (startPoint - endPoint);
 			force = direction * distance * pushForce;
 
 			//just for debug
 			Debug.DrawLine(startPoint, endPoint);
 
-			trajectory.velocity = new Vector2(force.x, force.y);
+			//trajectory.velocity = new Vector2(force.x, force.y);
 		}
 	}
 
-	void OnDragEnd ()
+	void OnDragEnd()
 	{
-		_player.Push (force);
+		_player.Push(force);
 
-		trajectory.Hide ();
+		trajectory.Hide();
 	}
 	void Shooting()
 	{

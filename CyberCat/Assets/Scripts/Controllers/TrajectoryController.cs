@@ -16,7 +16,7 @@ public class TrajectoryController : MonoBehaviour
 	public GameObject ArrowL;
 	Vector3 ArrowLeftScale;
 	float ArrowSize;
-	PlayerInput _playerInput;
+	public PlayerInput _playerInput;
 	public Vector2 _endPoint;
 
 	[Header("Formula variables")]
@@ -53,7 +53,7 @@ public class TrajectoryController : MonoBehaviour
 		_endPoint = _playerInput.PlayerMovementController.PlayerMovementControl.ReadValue<Vector2>();
 		velocity = _playerInput.PlayerMovementController.PlayerMovementControl.ReadValue<Vector2>()*-8.5f; 
 		StartCoroutine(RenderArc());
-		ArrowSize = _endPoint.x*-1;
+		ArrowSize = velocity.x/10;
 	}
 
 	private IEnumerator RenderArc()
@@ -138,9 +138,19 @@ public class TrajectoryController : MonoBehaviour
 			Time.timeScale = 0.1f;
 			Time.fixedDeltaTime = 0.02F * Time.timeScale;
 		}
-		else
+		else if (_endPoint.y < -0.35f)
 		{
 			_TrajectoryLine.SetActive(true);
+			ArrowR.SetActive(false);
+			ArrowR.transform.localScale = ArrowRightScale;
+			ArrowL.SetActive(false);
+			ArrowL.transform.localScale = ArrowLeftScale;
+			Time.timeScale = 0.1f;
+			Time.fixedDeltaTime = 0.02F * Time.timeScale;
+		}
+		else
+		{
+			_TrajectoryLine.SetActive(false);
 			ArrowR.SetActive(false);
 			ArrowR.transform.localScale = ArrowRightScale;
 			ArrowL.SetActive(false);

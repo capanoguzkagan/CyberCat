@@ -1119,7 +1119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MovementRange: 350
+  m_MovementRange: 250
   m_ControlPath: <Gamepad>/leftStick
 --- !u!114 &1603629039
 MonoBehaviour:
@@ -1166,9 +1166,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8519160489244291361, guid: 93edb4ceda08fa945800819ab70a9950, type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 6.2071776
+      objectReference: {fileID: 0}
     - target: {fileID: 8519160489244291420, guid: 93edb4ceda08fa945800819ab70a9950, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8519160489244291422, guid: 93edb4ceda08fa945800819ab70a9950, type: 3}
+      propertyPath: m_Size.x
+      value: 6.2071776
+      objectReference: {fileID: 0}
+    - target: {fileID: 8519160489244291423, guid: 93edb4ceda08fa945800819ab70a9950, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2576
       objectReference: {fileID: 0}
     - target: {fileID: 8519160489659154008, guid: 93edb4ceda08fa945800819ab70a9950, type: 3}
       propertyPath: m_RootOrder
@@ -2485,7 +2497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8672469832260747301}
   m_Layer: 0
-  m_Name: kedi
+  m_Name: Cat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
