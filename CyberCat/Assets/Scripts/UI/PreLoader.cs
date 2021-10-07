@@ -48,11 +48,11 @@ public class PreLoader : MonoBehaviour
 
 				if (b == 0)
 				{
-					SceneManager.LoadScene("DialogScene");
+					UnityEngine.SceneManagement.SceneManager.LoadScene("DialogScene");
 				}
 				else
 				{
-					SceneManager.LoadScene(PlayerPrefs.GetInt("level"));
+					UnityEngine.SceneManagement.SceneManager.LoadScene(PlayerPrefs.GetInt("level"));
 					Debug.Log(PlayerPrefs.GetInt("level"));
 				}
 

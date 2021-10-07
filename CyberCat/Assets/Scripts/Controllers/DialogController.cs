@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Events;
 
 public class DialogController : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class DialogController : MonoBehaviour
 	bool isPressed;
 
 	private int _index = 0;
+	[SerializeField] UnityEvent _finishEvent;
 	private void OnEnable()
 	{
 		_buttonConfirm.action.Enable();
@@ -40,19 +42,22 @@ public class DialogController : MonoBehaviour
 	{
 		if (!isPressed)
 		{
-			if (_index <= _sentences.Length - 1)
+			if (_index <_sentences.Length)
 			{
 				_skipText.SetActive(false);
 				_dialogText.text = "";
 				StartCoroutine(WriteSentence());
 				isPressed = true;
 			}
+			else if (_index == _sentences.Length)
+			{
+				_finishEvent?.Invoke();
+			}
 		}
 		else
 		{
 			_speedDialog = 0;
 		}
-
 	}
 	IEnumerator WriteSentence()
 	{

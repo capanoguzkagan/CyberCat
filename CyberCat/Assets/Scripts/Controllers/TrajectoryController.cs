@@ -129,14 +129,10 @@ public class TrajectoryController : MonoBehaviour
 		if (_endPoint.y > -0.35f&& _endPoint.x<0)
 		{
 			ArrowRight();
-			Time.timeScale = 0.1f;
-			Time.fixedDeltaTime = 0.02F * Time.timeScale;
 		}
 		else if (_endPoint.y > -0.35f && _endPoint.x > 0)
 		{
 			ArrowLeft();
-			Time.timeScale = 0.1f;
-			Time.fixedDeltaTime = 0.02F * Time.timeScale;
 		}
 		else if (_endPoint.y < -0.35f)
 		{
@@ -145,8 +141,6 @@ public class TrajectoryController : MonoBehaviour
 			ArrowR.transform.localScale = ArrowRightScale;
 			ArrowL.SetActive(false);
 			ArrowL.transform.localScale = ArrowLeftScale;
-			Time.timeScale = 0.1f;
-			Time.fixedDeltaTime = 0.02F * Time.timeScale;
 		}
 		else
 		{
@@ -155,8 +149,6 @@ public class TrajectoryController : MonoBehaviour
 			ArrowR.transform.localScale = ArrowRightScale;
 			ArrowL.SetActive(false);
 			ArrowL.transform.localScale = ArrowLeftScale;
-			Time.timeScale = 0.1f;
-			Time.fixedDeltaTime = 0.02F * Time.timeScale;
 		}
 	}
 	public void Hide()
@@ -166,7 +158,6 @@ public class TrajectoryController : MonoBehaviour
 		ArrowL.SetActive(false);
 		ArrowL.transform.localScale = ArrowLeftScale;
 		_TrajectoryLine.SetActive(false);
-		Time.timeScale = 1f;
 	}
 	private void ArrowRight()
 	{

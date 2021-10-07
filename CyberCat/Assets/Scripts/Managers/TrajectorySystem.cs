@@ -68,6 +68,8 @@ public class TrajectorySystem : MonoBehaviour
 		if (trajectory._playerInput.PlayerMovementController.Press.triggered)
 		{
 			isDragging = true;
+			Time.timeScale = 0.1f;
+			Time.fixedDeltaTime = 0.02F * Time.timeScale;
 		}
 		if (trajectory._playerInput.PlayerMovementController.Release.triggered)
 		{
@@ -80,11 +82,10 @@ public class TrajectorySystem : MonoBehaviour
 			force = Vector2.zero;
 			startPoint = Vector2.zero;
 			endPoint = Vector2.zero;
-
+			Time.timeScale = 1f;
 		}
 		if (isDragging)
 		{
-
 			endPoint = trajectory._endPoint * 2.2f;
 		}
 		if ((int)endPoint.x != 0 || (int)endPoint.y != 0)

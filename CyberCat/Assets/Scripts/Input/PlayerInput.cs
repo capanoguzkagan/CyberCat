@@ -57,30 +57,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""69670bc5-10e7-441f-b912-83e999c88315"",
-                    ""path"": ""<Touchscreen>/primaryTouch/indirectTouch"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Press"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""4765141a-cf86-47a2-9aed-a7283bc43069"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Press"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8330ab90-9d8b-4d94-aea1-3e2a86fb2bfc"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -101,30 +79,8 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4f75acfc-488c-4ae9-9d79-907170532d35"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Release"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""e22b90e6-dacf-43ed-b09d-493dd1beb54d"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Release"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""0a955880-a4e9-4cf1-a520-68e2764b4e7a"",
-                    ""path"": ""<Touchscreen>/primaryTouch/indirectTouch"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -151,9 +107,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Touch"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""fde0df9c-777a-4443-83dd-bbfc62a6a7db"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -170,7 +126,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""0ceae0e0-fb55-48fa-b9d3-46fe089a2a06"",
-                    ""path"": ""<Touchscreen>/primaryTouch"",
+                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -181,7 +137,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""acf72d84-3380-4bd0-ac5a-9649925d2a3b"",
-                    ""path"": ""<Keyboard>/anyKey"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
