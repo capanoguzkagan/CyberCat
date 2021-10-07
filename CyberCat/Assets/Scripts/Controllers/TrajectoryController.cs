@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TrajectoryController : MonoBehaviour
 {
@@ -28,10 +27,13 @@ public class TrajectoryController : MonoBehaviour
 	[Range(2, 30)]
 	public int linecastResolution;
 	public LayerMask canHit;
+
+	TrajectorySystem TrajectorySystem;
 	private void Awake()
 	{
 
 		_playerInput = new PlayerInput();
+		TrajectorySystem = GetComponent<TrajectorySystem>();
 	}
 	private void OnEnable()
 	{
@@ -48,14 +50,12 @@ public class TrajectoryController : MonoBehaviour
 		ArrowLeftScale = ArrowL.transform.localScale;
 	}
 
-	private void FixedUpdate()
+	private void Update()
 	{
 		_endPoint = _playerInput.PlayerMovementController.PlayerMovementControl.ReadValue<Vector2>();
-		velocity = _playerInput.PlayerMovementController.PlayerMovementControl.ReadValue<Vector2>()*-8.5f; 
 		StartCoroutine(RenderArc());
 		ArrowSize = velocity.x/10;
 	}
-
 	private IEnumerator RenderArc()
 	{
 		line.positionCount = resolution + 1;
@@ -186,16 +186,16 @@ public class TrajectoryController : MonoBehaviour
 	}
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.gameObject.layer == 6)
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
 		{
-		GameManager.Instance.isGround = true;
+		TrajectorySystem.isGround = true;
 		}
 	}
 	private void OnCollisionExit2D(Collision2D collision)
 	{
-		if (collision.gameObject.layer == 6)
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
 		{
-			GameManager.Instance.isGround = false;
+			TrajectorySystem.isGround = false;
 		}
 	}
 }

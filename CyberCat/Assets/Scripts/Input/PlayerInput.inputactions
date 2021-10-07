@@ -2,52 +2,6 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "DialogInputController",
-            "id": "6b1a32c2-3be9-4b02-a637-47d20e85bc0f",
-            "actions": [
-                {
-                    "name": "Touch",
-                    "type": "Value",
-                    "id": "fde0df9c-777a-4443-83dd-bbfc62a6a7db",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Keyboard",
-                    "type": "Button",
-                    "id": "b7780d35-f7dc-440f-b8e7-3f6661398269",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "0ceae0e0-fb55-48fa-b9d3-46fe089a2a06",
-                    "path": "<Touchscreen>/primaryTouch",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Touch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "acf72d84-3380-4bd0-ac5a-9649925d2a3b",
-                    "path": "<Keyboard>/anyKey",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Keyboard",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "PlayerMovementController",
             "id": "d87d888e-ff86-4ed0-816d-6c6bccb8428d",
             "actions": [
@@ -91,7 +45,7 @@
                 {
                     "name": "",
                     "id": "69670bc5-10e7-441f-b912-83e999c88315",
-                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "path": "<Touchscreen>/primaryTouch/indirectTouch",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -103,6 +57,28 @@
                     "name": "",
                     "id": "4765141a-cf86-47a2-9aed-a7283bc43069",
                     "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8330ab90-9d8b-4d94-aea1-3e2a86fb2bfc",
+                    "path": "<Touchscreen>/primaryTouch/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Press",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3c3cdbd5-0a71-4a6a-a551-e41d81195522",
+                    "path": "<Touchscreen>/primaryTouch/press",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -129,6 +105,74 @@
                     "processors": "",
                     "groups": "",
                     "action": "Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a955880-a4e9-4cf1-a520-68e2764b4e7a",
+                    "path": "<Touchscreen>/primaryTouch/indirectTouch",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7b5c8f29-53c6-422c-8040-546a5076b66e",
+                    "path": "<Touchscreen>/primaryTouch/press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Release",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DialogInputController",
+            "id": "6b1a32c2-3be9-4b02-a637-47d20e85bc0f",
+            "actions": [
+                {
+                    "name": "Touch",
+                    "type": "Value",
+                    "id": "fde0df9c-777a-4443-83dd-bbfc62a6a7db",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Keyboard",
+                    "type": "Button",
+                    "id": "b7780d35-f7dc-440f-b8e7-3f6661398269",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0ceae0e0-fb55-48fa-b9d3-46fe089a2a06",
+                    "path": "<Touchscreen>/primaryTouch",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Touch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "acf72d84-3380-4bd0-ac5a-9649925d2a3b",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Keyboard",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

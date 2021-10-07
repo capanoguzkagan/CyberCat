@@ -1,22 +1,9 @@
 ﻿using UnityEngine.InputSystem;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class TrajectorySystem : MonoBehaviour
 {
-	#region Singleton class: GameManager
-
-	public static GameManager Instance;
-
-	void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-	}
-
-	#endregion
-
 	#region Variables
 	[Header("Trajectory Settings")]
 	Camera cam;
@@ -49,7 +36,35 @@ public class GameManager : MonoBehaviour
 
 	void Update()
 	{
+		TrajectoryOn();
+	}
 
+	void OnDrag()
+	{
+		if (isGround)
+		{
+			trajectory.Show();
+			distance = Vector2.Distance(startPoint, endPoint);
+			direction = (startPoint - endPoint);
+			force = direction * distance * pushForce / 2;
+			trajectory.velocity = new Vector2(force.x, force.y);
+		}
+	}
+
+	void OnDragEnd()
+	{
+		_player.Push(force);
+		trajectory.Hide();
+	}
+	void Shooting()
+	{
+		GameObject bullet = Instantiate(Bullet, firePoint.position, firePoint.rotation);
+		Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+		rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
+		Destroy(bullet, 1f);
+	}
+	void TrajectoryOn()
+	{
 		if (trajectory._playerInput.PlayerMovementController.Press.triggered)
 		{
 			isDragging = true;
@@ -72,39 +87,9 @@ public class GameManager : MonoBehaviour
 
 			endPoint = trajectory._endPoint * 2.2f;
 		}
-		if (((int)startPoint.x - (int)endPoint.x) != 0 || ((int)startPoint.y - (int)endPoint.y) != 0)
+		if ((int)endPoint.x != 0 || (int)endPoint.y != 0)
 		{
 			OnDrag();
 		}
-	}
-
-	void OnDrag()
-	{
-		if (isGround)
-		{
-			trajectory.Show();
-			distance = Vector2.Distance(startPoint, endPoint);
-			direction = (startPoint - endPoint);
-			force = direction * distance * pushForce;
-
-			//just for debug
-			Debug.DrawLine(startPoint, endPoint);
-
-			//trajectory.velocity = new Vector2(force.x, force.y);
-		}
-	}
-
-	void OnDragEnd()
-	{
-		_player.Push(force);
-
-		trajectory.Hide();
-	}
-	void Shooting()
-	{
-		GameObject bullet = Instantiate(Bullet, firePoint.position, firePoint.rotation);
-		Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-		rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
-		Destroy(bullet, 1f);
 	}
 }
