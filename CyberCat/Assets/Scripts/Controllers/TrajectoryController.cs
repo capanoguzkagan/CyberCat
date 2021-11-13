@@ -29,8 +29,6 @@ public class TrajectoryController : MonoBehaviour
 	public LayerMask canHit;
 
 	TrajectorySystem TrajectorySystem;
-	[SerializeField] EventScript _eventScript;
-	[SerializeField]DelegateScript _delegateScript;
 	PlayerController _playerController;
 	private void Awake()
 	{
@@ -140,11 +138,19 @@ public class TrajectoryController : MonoBehaviour
 	{
 		if (_endPoint.y<0.35f && _endPoint.y > -0.35f&& _endPoint.x<0)
 		{
-			ArrowRight();
+            if (TrajectorySystem.isWall==false)
+            {
+				ArrowRight();
+			}
+			
 		}
 		else if (_endPoint.y<0.35f && _endPoint.y > -0.35f && _endPoint.x > 0)
 		{
-			ArrowLeft();
+			if (TrajectorySystem.isWall == false)
+			{
+				ArrowLeft();
+			}
+			
 		}
 		else if (_endPoint.y < -0.35f || _endPoint.y>0.35f )
 		{
@@ -199,6 +205,9 @@ public class TrajectoryController : MonoBehaviour
 		{
 			TrajectorySystem.isGround = true;
 			GameManager.Instance.GravityScaleMethod();
+			_playerController.rb.gravityScale = 0;
+			TrajectorySystem.isWall = true;
+
 		}
 	}
 	private void OnCollisionExit2D(Collision2D collision)
@@ -206,6 +215,7 @@ public class TrajectoryController : MonoBehaviour
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
 		{
 			TrajectorySystem.isGround = false;
+			TrajectorySystem.isWall = false;
 			_playerController.rb.gravityScale = 1;
 		}
 	}

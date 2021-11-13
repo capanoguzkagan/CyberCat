@@ -25,6 +25,7 @@ public class TrajectorySystem : MonoBehaviour
 	[SerializeField] GameObject Bullet;
 	[SerializeField] float bulletForce = 20f;
 	public bool isGround;
+	public bool isWall=false;
 	#endregion
 
 
