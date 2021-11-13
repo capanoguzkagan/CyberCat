@@ -29,6 +29,8 @@ public class TrajectoryController : MonoBehaviour
 	public LayerMask canHit;
 
 	TrajectorySystem TrajectorySystem;
+	[SerializeField] EventScript _eventScript;
+	[SerializeField]DelegateScript _delegateScript;
 	private void Awake()
 	{
 
@@ -126,15 +128,15 @@ public class TrajectoryController : MonoBehaviour
 	}
 	public void Show()
 	{
-		if (_endPoint.y > -0.35f&& _endPoint.x<0)
+		if (_endPoint.y<0.35f && _endPoint.y > -0.35f&& _endPoint.x<0)
 		{
 			ArrowRight();
 		}
-		else if (_endPoint.y > -0.35f && _endPoint.x > 0)
+		else if (_endPoint.y<0.35f && _endPoint.y > -0.35f && _endPoint.x > 0)
 		{
 			ArrowLeft();
 		}
-		else if (_endPoint.y < -0.35f)
+		else if (_endPoint.y < -0.35f || _endPoint.y>0.35f )
 		{
 			_TrajectoryLine.SetActive(true);
 			ArrowR.SetActive(false);
@@ -179,7 +181,9 @@ public class TrajectoryController : MonoBehaviour
 	{
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
 		{
-		TrajectorySystem.isGround = true;
+			TrajectorySystem.isGround = true;
+			_eventScript.gameObject.SetActive(true);
+			//_delegateScript.gameObject.SetActive(true);
 		}
 	}
 	private void OnCollisionExit2D(Collision2D collision)
@@ -187,6 +191,8 @@ public class TrajectoryController : MonoBehaviour
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
 		{
 			TrajectorySystem.isGround = false;
+			_eventScript.gameObject.SetActive(false);
+			//_delegateScript.gameObject.SetActive(false);
 		}
 	}
 }
