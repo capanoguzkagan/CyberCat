@@ -31,20 +31,30 @@ public class TrajectoryController : MonoBehaviour
 	TrajectorySystem TrajectorySystem;
 	[SerializeField] EventScript _eventScript;
 	[SerializeField]DelegateScript _delegateScript;
+	PlayerController _playerController;
 	private void Awake()
 	{
 
 		_playerInput = new PlayerInput();
 		TrajectorySystem = GetComponent<TrajectorySystem>();
+		_playerController = GetComponent<PlayerController>();
 	}
 	private void OnEnable()
 	{
 		_playerInput.Enable();
+		GameManager.Instance.OnHold += ChanceGravity;
 	}
 	private void OnDisable()
 	{
 		_playerInput.Disable();
+		GameManager.Instance.OnHold -= ChanceGravity;
 	}
+	private void ChanceGravity()
+    {
+		_playerController.rb.gravityScale = 0;
+    }
+
+
 	private void Start()
 	{
 		g = Mathf.Abs(Physics2D.gravity.y);
@@ -182,17 +192,22 @@ public class TrajectoryController : MonoBehaviour
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
 		{
 			TrajectorySystem.isGround = true;
-			_eventScript.gameObject.SetActive(true);
+			//_eventScript.gameObject.SetActive(true);
 			//_delegateScript.gameObject.SetActive(true);
+		}
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+		{
+			TrajectorySystem.isGround = true;
+			GameManager.Instance.GravityScaleMethod();
 		}
 	}
 	private void OnCollisionExit2D(Collision2D collision)
 	{
-		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
 		{
 			TrajectorySystem.isGround = false;
-			_eventScript.gameObject.SetActive(false);
-			//_delegateScript.gameObject.SetActive(false);
+			_playerController.rb.gravityScale = 1;
 		}
 	}
+
 }

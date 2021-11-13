@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class EventScript : MonoBehaviour
 {
-    public event System.Action<int> HoldActionEvent;
-    PlayerController playerController;
-    private void Awake()
-    {
-        playerController = FindObjectOfType<PlayerController>();
-    }
+    public event System.Action<float> HoldActionEvent;
     private void OnEnable()
     {
-        HoldActionEvent?.Invoke(0);
+        HoldActionEvent?.Invoke(0.05f);
     }
     private void OnDisable()
     {
