@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class TrajectoryController : MonoBehaviour
 {
+	#region TrajectoryController Variables
+
 	[SerializeField]
 	GameObject _TrajectoryLine;
 	[Header("Line renderer veriables")]
@@ -20,7 +22,7 @@ public class TrajectoryController : MonoBehaviour
 
 	[Header("Formula variables")]
 	public Vector2 velocity;
-	public float yLimit; //for later
+	public float yLimit;
 	private float g;
 
 	[Header("Linecast variables")]
@@ -28,33 +30,35 @@ public class TrajectoryController : MonoBehaviour
 	public int linecastResolution;
 	public LayerMask canHit;
 
-	TrajectorySystem TrajectorySystem;
-	PlayerController _playerController;
-	private void Awake()
-	{
+	[Header("Physics")]
+	Rigidbody2D rb;
+	#endregion
 
-		_playerInput = new PlayerInput();
-		TrajectorySystem = GetComponent<TrajectorySystem>();
-		_playerController = GetComponent<PlayerController>();
-	}
+
+	#region Enable-Disable
 	private void OnEnable()
 	{
 		_playerInput.Enable();
-		GameManager.Instance.OnHold += ChanceGravity;
+
 	}
 	private void OnDisable()
 	{
 		_playerInput.Disable();
-		GameManager.Instance.OnHold -= ChanceGravity;
+	//	GameManager.Instance.OnPressEvent -= TrajectoryOn;
+		GameManager.Instance.ReleaseEvent -= RelaseEventTriggered;
 	}
-	private void ChanceGravity()
-    {
-		_playerController.rb.gravityScale = 0;
-    }
+	#endregion
 
+	private void Awake()
+	{
+		_playerInput = new PlayerInput();
+		rb = GetComponent<Rigidbody2D>();
+	}
 
 	private void Start()
 	{
+	//	GameManager.Instance.OnPressEvent += TrajectoryOn;
+		GameManager.Instance.ReleaseEvent += RelaseEventTriggered;
 		g = Mathf.Abs(Physics2D.gravity.y);
 		ArrowRightScale = ArrowR.transform.localScale;
 		ArrowLeftScale = ArrowL.transform.localScale;
@@ -66,6 +70,8 @@ public class TrajectoryController : MonoBehaviour
 		StartCoroutine(RenderArc());
 		ArrowSize = velocity.x/10;
 	}
+
+	#region Trajectory Controller
 	private IEnumerator RenderArc()
 	{
 		line.positionCount = resolution + 1;
@@ -138,7 +144,7 @@ public class TrajectoryController : MonoBehaviour
 	{
 		if (_endPoint.y<0.35f && _endPoint.y > -0.35f&& _endPoint.x<0)
 		{
-            if (TrajectorySystem.isWall==false)
+            if (GameManager.isWall==false)
             {
 				ArrowRight();
 			}
@@ -146,7 +152,7 @@ public class TrajectoryController : MonoBehaviour
 		}
 		else if (_endPoint.y<0.35f && _endPoint.y > -0.35f && _endPoint.x > 0)
 		{
-			if (TrajectorySystem.isWall == false)
+			if (GameManager.isWall == false)
 			{
 				ArrowLeft();
 			}
@@ -193,31 +199,50 @@ public class TrajectoryController : MonoBehaviour
 		ArrowR.transform.localScale = ArrowRightScale;
 		_TrajectoryLine.SetActive(false);
 	}
+	#endregion
+
+	public void Push(Vector2 force)
+	{
+		rb.AddForce(force, ForceMode2D.Impulse);
+	}
+	private void RelaseEventTriggered()
+	{
+
+	}
+
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
 		{
-			TrajectorySystem.isGround = true;
-			//_eventScript.gameObject.SetActive(true);
-			//_delegateScript.gameObject.SetActive(true);
+			GameManager.isGround = true;
 		}
-		if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")&& !(collision.gameObject.layer == LayerMask.NameToLayer("Obstacle")))
 		{
-			TrajectorySystem.isGround = true;
-			GameManager.Instance.GravityScaleMethod();
-			_playerController.rb.gravityScale = 0;
-			TrajectorySystem.isWall = true;
-
+			GameManager.isWall = true;
+			GameManager.isGround = true;
+			StartCoroutine(WallGravity());
 		}
 	}
 	private void OnCollisionExit2D(Collision2D collision)
 	{
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle") || collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
 		{
-			TrajectorySystem.isGround = false;
-			TrajectorySystem.isWall = false;
-			_playerController.rb.gravityScale = 1;
+			GameManager.isGround = false;
+			GameManager.isWall = false;
+			rb.gravityScale = 1;
 		}
 	}
-
+	IEnumerator WallGravity()
+	{
+		float index = 0.1f;
+		rb.gravityScale = index;
+		yield return new WaitForSecondsRealtime(1.5f);
+		while (index >= 1)
+		{
+			index += 0.2f;
+			rb.gravityScale = index;
+			yield return new WaitForSeconds(0.05f);
+		}
+		Time.timeScale = 1f;
+	}
 }

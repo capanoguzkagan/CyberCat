@@ -41,6 +41,14 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)""
+                },
+                {
+                    ""name"": ""Position"",
+                    ""type"": ""Value"",
+                    ""id"": ""742e4373-52a5-46ad-b569-998c0392bd9c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -96,6 +104,28 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Release"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1e3837c9-1f84-4a82-b67b-cb1902897777"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Position"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f1a09cd1-8b7e-49fb-ae6f-84986cbe3a86"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Position"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -155,6 +185,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_PlayerMovementController_PlayerMovementControl = m_PlayerMovementController.FindAction("PlayerMovementControl", throwIfNotFound: true);
         m_PlayerMovementController_Press = m_PlayerMovementController.FindAction("Press", throwIfNotFound: true);
         m_PlayerMovementController_Release = m_PlayerMovementController.FindAction("Release", throwIfNotFound: true);
+        m_PlayerMovementController_Position = m_PlayerMovementController.FindAction("Position", throwIfNotFound: true);
         // DialogInputController
         m_DialogInputController = asset.FindActionMap("DialogInputController", throwIfNotFound: true);
         m_DialogInputController_Touch = m_DialogInputController.FindAction("Touch", throwIfNotFound: true);
@@ -211,6 +242,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerMovementController_PlayerMovementControl;
     private readonly InputAction m_PlayerMovementController_Press;
     private readonly InputAction m_PlayerMovementController_Release;
+    private readonly InputAction m_PlayerMovementController_Position;
     public struct PlayerMovementControllerActions
     {
         private @PlayerInput m_Wrapper;
@@ -218,6 +250,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @PlayerMovementControl => m_Wrapper.m_PlayerMovementController_PlayerMovementControl;
         public InputAction @Press => m_Wrapper.m_PlayerMovementController_Press;
         public InputAction @Release => m_Wrapper.m_PlayerMovementController_Release;
+        public InputAction @Position => m_Wrapper.m_PlayerMovementController_Position;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovementController; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -236,6 +269,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Release.started -= m_Wrapper.m_PlayerMovementControllerActionsCallbackInterface.OnRelease;
                 @Release.performed -= m_Wrapper.m_PlayerMovementControllerActionsCallbackInterface.OnRelease;
                 @Release.canceled -= m_Wrapper.m_PlayerMovementControllerActionsCallbackInterface.OnRelease;
+                @Position.started -= m_Wrapper.m_PlayerMovementControllerActionsCallbackInterface.OnPosition;
+                @Position.performed -= m_Wrapper.m_PlayerMovementControllerActionsCallbackInterface.OnPosition;
+                @Position.canceled -= m_Wrapper.m_PlayerMovementControllerActionsCallbackInterface.OnPosition;
             }
             m_Wrapper.m_PlayerMovementControllerActionsCallbackInterface = instance;
             if (instance != null)
@@ -249,6 +285,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Release.started += instance.OnRelease;
                 @Release.performed += instance.OnRelease;
                 @Release.canceled += instance.OnRelease;
+                @Position.started += instance.OnPosition;
+                @Position.performed += instance.OnPosition;
+                @Position.canceled += instance.OnPosition;
             }
         }
     }
@@ -299,6 +338,7 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnPlayerMovementControl(InputAction.CallbackContext context);
         void OnPress(InputAction.CallbackContext context);
         void OnRelease(InputAction.CallbackContext context);
+        void OnPosition(InputAction.CallbackContext context);
     }
     public interface IDialogInputControllerActions
     {

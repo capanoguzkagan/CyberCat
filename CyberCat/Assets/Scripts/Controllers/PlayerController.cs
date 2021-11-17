@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
 	void Awake ()
 	{
 		rb = GetComponent<Rigidbody2D> ();
-		col = GetComponent<CircleCollider2D> ();
 	}
 
 	public void Push (Vector2 force)

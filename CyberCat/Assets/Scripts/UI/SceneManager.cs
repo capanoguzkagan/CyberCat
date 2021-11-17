@@ -8,6 +8,5 @@ public class SceneManager : MonoBehaviour
 	public void NextScene()
 	{
 		UnityEngine.SceneManagement.SceneManager.LoadScene("KodDenemeAlaný");
-
 	}
 }

@@ -16,7 +16,6 @@ public class TrajectorySystem : MonoBehaviour
 
 
 
-	[SerializeField] private PlayerController _player;
 	[SerializeField] TrajectoryController trajectory;
 	[SerializeField] float pushForce = 4f;
 
@@ -24,8 +23,6 @@ public class TrajectorySystem : MonoBehaviour
 	[SerializeField] Transform firePoint;
 	[SerializeField] GameObject Bullet;
 	[SerializeField] float bulletForce = 20f;
-	public bool isGround;
-	public bool isWall=false;
 	#endregion
 
 
@@ -42,7 +39,7 @@ public class TrajectorySystem : MonoBehaviour
 
 	void OnDrag()
 	{
-		if (isGround)
+		if (GameManager.isGround)
 		{
 			trajectory.Show();
 			distance = Vector2.Distance(startPoint, endPoint);
@@ -54,7 +51,7 @@ public class TrajectorySystem : MonoBehaviour
 
 	void OnDragEnd()
 	{
-		_player.Push(force);
+		trajectory.Push(force);
 		trajectory.Hide();
 	}
 	void Shooting()
