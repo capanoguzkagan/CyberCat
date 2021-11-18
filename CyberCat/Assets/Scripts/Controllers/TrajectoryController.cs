@@ -17,7 +17,6 @@ public class TrajectoryController : MonoBehaviour
 	public GameObject ArrowL;
 	Vector3 ArrowLeftScale;
 	float ArrowSize;
-	public PlayerInput _playerInput;
 	public Vector2 _endPoint;
 
 	[Header("Formula variables")]
@@ -34,41 +33,52 @@ public class TrajectoryController : MonoBehaviour
 	Rigidbody2D rb;
 	#endregion
 
-
-	#region Enable-Disable
-	private void OnEnable()
-	{
-		_playerInput.Enable();
-
-	}
-	private void OnDisable()
-	{
-		_playerInput.Disable();
-	//	GameManager.Instance.OnPressEvent -= TrajectoryOn;
-		GameManager.Instance.ReleaseEvent -= RelaseEventTriggered;
-	}
+	#region TrajectorySystem Variables
+	[Header("Trajectory Settings")]
+	Camera cam;
+	bool isDragging = false;
+	Vector2 startPoint;
+	Vector2 endPoint;
+	Vector2 direction;
+	Vector2 force;
+	float distance;
+	[SerializeField] float pushForce = 4f;
 	#endregion
 
-	private void Awake()
+	[Header("Shooting Settings")]
+	[SerializeField] Transform firePoint;
+	[SerializeField] GameObject Bullet;
+	[SerializeField] float bulletForce = 20f;
+
+	[Header("Variables")]
+	Vector2 mousePosition;
+	private Joystick joystick;
+	bool isTrajectoryOn;
+
+	#region Enable-Disable
+
+	private void OnDisable()
 	{
-		_playerInput = new PlayerInput();
-		rb = GetComponent<Rigidbody2D>();
+		GameManager.Instance.OnPressEvent -= TrajectoryOn;
+		GameManager.Instance.ReleaseEvent -= RelaseEventTriggered;
 	}
+
+	#endregion
 
 	private void Start()
 	{
-	//	GameManager.Instance.OnPressEvent += TrajectoryOn;
+		GameManager.Instance.OnPressEvent += TrajectoryOn;
 		GameManager.Instance.ReleaseEvent += RelaseEventTriggered;
+		GameManager.Instance.ShootEnemyEvent += Shooting;
+
+		cam = Camera.main;
+
+		rb = GetComponent<Rigidbody2D>();
+		joystick = FindObjectOfType<Joystick>();
+
 		g = Mathf.Abs(Physics2D.gravity.y);
 		ArrowRightScale = ArrowR.transform.localScale;
 		ArrowLeftScale = ArrowL.transform.localScale;
-	}
-
-	private void Update()
-	{
-		_endPoint = _playerInput.PlayerMovementController.PlayerMovementControl.ReadValue<Vector2>();
-		StartCoroutine(RenderArc());
-		ArrowSize = velocity.x/10;
 	}
 
 	#region Trajectory Controller
@@ -142,23 +152,23 @@ public class TrajectoryController : MonoBehaviour
 	}
 	public void Show()
 	{
-		if (_endPoint.y<0.35f && _endPoint.y > -0.35f&& _endPoint.x<0)
+		if (_endPoint.y < 0.35f && _endPoint.y > -0.35f && _endPoint.x < 0)
 		{
-            if (GameManager.isWall==false)
-            {
+			if (GameManager.isWall == false)
+			{
 				ArrowRight();
 			}
-			
+
 		}
-		else if (_endPoint.y<0.35f && _endPoint.y > -0.35f && _endPoint.x > 0)
+		else if (_endPoint.y < 0.35f && _endPoint.y > -0.35f && _endPoint.x > 0)
 		{
 			if (GameManager.isWall == false)
 			{
 				ArrowLeft();
 			}
-			
+
 		}
-		else if (_endPoint.y < -0.35f || _endPoint.y>0.35f )
+		else if (_endPoint.y < -0.35f || _endPoint.y > 0.35f)
 		{
 			_TrajectoryLine.SetActive(true);
 			ArrowR.SetActive(false);
@@ -194,21 +204,54 @@ public class TrajectoryController : MonoBehaviour
 	private void ArrowLeft()
 	{
 		ArrowL.SetActive(true);
-		ArrowL.transform.localScale = new Vector3(ArrowSize*-1, ArrowL.transform.localScale.y);
+		ArrowL.transform.localScale = new Vector3(ArrowSize * -1, ArrowL.transform.localScale.y);
 		ArrowR.SetActive(false);
 		ArrowR.transform.localScale = ArrowRightScale;
 		_TrajectoryLine.SetActive(false);
 	}
 	#endregion
 
+	#region Trajectory System
+
+	void OnDragEnd()
+	{
+		Push(force);
+		Hide();
+	}
 	public void Push(Vector2 force)
 	{
 		rb.AddForce(force, ForceMode2D.Impulse);
 	}
+
+	#endregion
+
+
+	#region Event Functions
+
 	private void RelaseEventTriggered()
 	{
-
+		isTrajectoryOn = false;
 	}
+
+	void TrajectoryOn()
+	{
+		if (GameManager.isGround)
+		{
+			StartCoroutine(TrajectoryShow());
+		}
+	}
+
+	void Shooting()
+	{
+
+		GameObject bullet = Instantiate(Bullet, firePoint.position, firePoint.rotation);
+		Vector3 dir = GameManager.Instance.hit.point - bullet.transform.position;
+		Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+		rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
+		Destroy(bullet, 1f);
+	}
+
+	#endregion
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
@@ -216,7 +259,8 @@ public class TrajectoryController : MonoBehaviour
 		{
 			GameManager.isGround = true;
 		}
-		if (collision.gameObject.layer == LayerMask.NameToLayer("Wall")&& !(collision.gameObject.layer == LayerMask.NameToLayer("Obstacle")))
+
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Wall") && !(collision.gameObject.layer == LayerMask.NameToLayer("Obstacle")))
 		{
 			GameManager.isWall = true;
 			GameManager.isGround = true;
@@ -229,20 +273,47 @@ public class TrajectoryController : MonoBehaviour
 		{
 			GameManager.isGround = false;
 			GameManager.isWall = false;
-			rb.gravityScale = 1;
+			GameManager.Instance.NormalGameSpeed();
 		}
 	}
 	IEnumerator WallGravity()
 	{
 		float index = 0.1f;
 		rb.gravityScale = index;
-		yield return new WaitForSecondsRealtime(1.5f);
-		while (index >= 1)
+		yield return new WaitForSeconds(0.5f);
+		while (index < 1)
 		{
 			index += 0.2f;
 			rb.gravityScale = index;
 			yield return new WaitForSeconds(0.05f);
 		}
-		Time.timeScale = 1f;
+		GameManager.Instance.NormalGameSpeed();
 	}
+
+	IEnumerator TrajectoryShow()
+	{
+		GameManager.Instance.SlowMotion();
+		isTrajectoryOn = true;
+
+		while (isTrajectoryOn)
+		{
+			_endPoint = joystick.Direction;
+			StartCoroutine(RenderArc());
+			ArrowSize = velocity.x / 10;
+			Show();
+			endPoint = _endPoint * 2.2f;
+			distance = Vector2.Distance(startPoint, endPoint);
+			direction = (startPoint - endPoint);
+			force = direction * distance * pushForce / 2;
+			velocity = new Vector2(force.x, force.y);
+			yield return null;
+		}
+
+		OnDragEnd();
+		force = Vector2.zero;
+		startPoint = Vector2.zero;
+		endPoint = Vector2.zero;
+		GameManager.Instance.NormalGameSpeed();
+	}
+
 }

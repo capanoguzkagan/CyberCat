@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 	public static bool isWall;
 
 
-	RaycastHit hit;
+	public RaycastHit hit;
 	private void OnEnable()
 	{
 		_playerInput.Enable();
@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
 		_playerInput.PlayerMovementController.Press.performed += (context) => Pressed();
 		_playerInput.PlayerMovementController.Release.performed += (context) => ReleaseEvent?.Invoke();
 		camera = Camera.main;
+		Pressed();
 	}
 
 	private void Pressed()

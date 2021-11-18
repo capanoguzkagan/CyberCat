@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour
 	[SerializeField] float _range;
 	[SerializeField] float _speedTimer;
 	[SerializeField] Transform _target;
+	[SerializeField] LayerMask LayerMask;
 	Image _image;
 
 	float _time;
@@ -34,7 +35,7 @@ public class EnemyController : MonoBehaviour
 	{
 		Vector2 targetPosition = _target.position;
 		_direction = targetPosition - (Vector2)transform.position;
-		RaycastHit2D rayInfo = Physics2D.Raycast(transform.position, _direction, _range);
+		RaycastHit2D rayInfo = Physics2D.Raycast(transform.position, _direction, _range, LayerMask);
 		if (_detected)
 		{
 			SlowMotion();

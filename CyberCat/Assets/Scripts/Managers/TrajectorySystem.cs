@@ -34,7 +34,7 @@ public class TrajectorySystem : MonoBehaviour
 
 	void Update()
 	{
-		TrajectoryOn();
+		//TrajectoryOn();
 	}
 
 	void OnDrag()
@@ -61,7 +61,7 @@ public class TrajectorySystem : MonoBehaviour
 		rb.AddForce(firePoint.up * bulletForce, ForceMode2D.Impulse);
 		Destroy(bullet, 1f);
 	}
-	void TrajectoryOn()
+	/*void TrajectoryOn()
 	{
 		if (trajectory._playerInput.PlayerMovementController.Press.triggered)
 		{
@@ -90,5 +90,5 @@ public class TrajectorySystem : MonoBehaviour
 		{
 			OnDrag();
 		}
-	}
+	}*/
 }
