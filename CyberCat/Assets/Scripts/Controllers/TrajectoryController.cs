@@ -152,21 +152,13 @@ public class TrajectoryController : MonoBehaviour
 	}
 	public void Show()
 	{
-		if (_endPoint.y < 0.35f && _endPoint.y > -0.35f && _endPoint.x < 0)
+		if (_endPoint.y < 0.35f && _endPoint.y > -0.35f && _endPoint.x < 0 && GameManager.isWall == false)
 		{
-			if (GameManager.isWall == false)
-			{
-				ArrowRight();
-			}
-
+			ArrowRight();
 		}
-		else if (_endPoint.y < 0.35f && _endPoint.y > -0.35f && _endPoint.x > 0)
+		else if (_endPoint.y < 0.35f && _endPoint.y > -0.35f && _endPoint.x > 0 && GameManager.isWall == false)
 		{
-			if (GameManager.isWall == false)
-			{
-				ArrowLeft();
-			}
-
+			ArrowLeft();
 		}
 		else if (_endPoint.y < -0.35f || _endPoint.y > 0.35f)
 		{
