@@ -160,22 +160,34 @@ public class TrajectoryController : MonoBehaviour
 		{
 			ArrowLeft();
 		}
-		else if (_endPoint.y < -0.35f || _endPoint.y > 0.35f)
+		else if (_endPoint.y < -0.35f)
 		{
-			_TrajectoryLine.SetActive(true);
-			ArrowR.SetActive(false);
-			ArrowR.transform.localScale = ArrowRightScale;
-			ArrowL.SetActive(false);
-			ArrowL.transform.localScale = ArrowLeftScale;
+			lineActive();//On Ground
+		}
+		else if (GameManager.isWall)
+        {
+			lineActive();//On Wall
 		}
 		else
 		{
+			Hide();//Aynýsý hide() functionunda da var direk .
+			/*
 			_TrajectoryLine.SetActive(false);
 			ArrowR.SetActive(false);
 			ArrowR.transform.localScale = ArrowRightScale;
 			ArrowL.SetActive(false);
 			ArrowL.transform.localScale = ArrowLeftScale;
+			*/
+
 		}
+	}
+	public void lineActive()
+    {
+		_TrajectoryLine.SetActive(true);
+		ArrowR.SetActive(false);
+		ArrowR.transform.localScale = ArrowRightScale;
+		ArrowL.SetActive(false);
+		ArrowL.transform.localScale = ArrowLeftScale;
 	}
 	public void Hide()
 	{
