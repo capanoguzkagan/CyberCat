@@ -22,7 +22,10 @@ public class GameManager : MonoBehaviour
 
 	public static bool isGround;
 	public static bool isWall;
-
+	private bool rightBool;
+	private bool leftBool;
+    public bool RightArmBoolean { get { return rightBool; } set { rightBool = value; } }
+	public bool LeftArmBoolean { get { return leftBool; } set { leftBool = value; } }
 
 	public RaycastHit hit;
 	private void OnEnable()
@@ -68,8 +71,8 @@ public class GameManager : MonoBehaviour
 		Ray ray = camera.ScreenPointToRay(pressPosition);
 		if (Physics.Raycast(ray, out hit,1000, _layerMask))
 		{
-			ShootEnemyEvent?.Invoke();
-			Debug.Log("ShootEnemyEvent");
+				ShootEnemyEvent?.Invoke();
+				Debug.Log("ShootEnemyEvent");
 		}
 		else
 		{

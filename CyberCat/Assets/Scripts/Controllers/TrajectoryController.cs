@@ -54,7 +54,6 @@ public class TrajectoryController : MonoBehaviour
 	Vector2 mousePosition;
 	private Joystick joystick;
 	bool isTrajectoryOn;
-
 	#region Enable-Disable
 
 	private void OnDisable()
@@ -282,14 +281,14 @@ public class TrajectoryController : MonoBehaviour
 	}
 	IEnumerator WallGravity()
 	{
-		float index = 0.1f;
+		float index = 0.05f;
 		rb.gravityScale = index;
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(0.8f);
 		while (index < 1)
 		{
 			index += 0.2f;
 			rb.gravityScale = index;
-			yield return new WaitForSeconds(0.05f);
+			yield return new WaitForSeconds(0.08f);
 		}
 		GameManager.Instance.NormalGameSpeed();
 	}
