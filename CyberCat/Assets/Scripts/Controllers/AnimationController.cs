@@ -5,6 +5,7 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     Animator _anim;
+    public Vector3 offset;
     void Start()
     {
         _anim = GetComponent<Animator>();
@@ -15,7 +16,6 @@ public class AnimationController : MonoBehaviour
     {
         CharacterAnimationMethod();
     }
-
     void CharacterAnimationMethod()
     {
         if (!(GameManager.isGround)&&!(GameManager.isWall))
@@ -41,5 +41,6 @@ public class AnimationController : MonoBehaviour
             _anim.SetBool("RightArmBool", false);
             _anim.SetBool("LeftArmBool", false);
         }
+        
     }
 }

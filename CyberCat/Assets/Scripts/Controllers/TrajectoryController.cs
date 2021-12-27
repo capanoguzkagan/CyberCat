@@ -54,9 +54,10 @@ public class TrajectoryController : MonoBehaviour
 	Vector2 mousePosition;
 	private Joystick joystick;
 	bool isTrajectoryOn;
-	#region Enable-Disable
 
-	private void OnDisable()
+    #region Enable-Disable
+
+    private void OnDisable()
 	{
 		GameManager.Instance.OnPressEvent -= TrajectoryOn;
 		GameManager.Instance.ReleaseEvent -= RelaseEventTriggered;
@@ -252,6 +253,8 @@ public class TrajectoryController : MonoBehaviour
 		Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
 		rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
 		Destroy(bullet, 1f);
+
+		//eren
 	}
 
 	#endregion

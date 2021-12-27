@@ -10,12 +10,22 @@ public class EnemyController : MonoBehaviour
 	Image _image;
 
 	float _time;
-	bool _detected;
+	public bool _detected;
 	bool _slowMotion;
 	Vector2 _direction;
 
+	//eren
+	public Vector3 distance;
+	GameObject lA;
+	GameObject rA;
+	Vector3 distLeftArm;
+	Vector3 distRightArm;
+	public string enemyName;
+
 	void Start()
 	{
+		rA = GameObject.Find("Right");
+		lA = GameObject.Find("Left");
 		_image = GetComponentInChildren<Image>();
 		_image.fillAmount = 1;
 		_time = 1;
@@ -25,6 +35,8 @@ public class EnemyController : MonoBehaviour
 	void Update()
 	{
 		DetectTarget();
+		distLeftArm = lA.GetComponent<LeftArm>().distanceLeftCalculate(this.transform.position);
+		distRightArm = rA.GetComponent<RightArm>().distanceRightCalculate(this.transform.position);
 
 	}
 	private void OnDrawGizmosSelected()
@@ -39,6 +51,19 @@ public class EnemyController : MonoBehaviour
 		if (_detected)
 		{
 			SlowMotion();
+			if (distRightArm.x > distLeftArm.x)
+			{
+				GameManager.Instance.rightLeftboolean = false;
+				Debug.Log(distRightArm);
+				Debug.Log(distLeftArm);
+			}
+			else if (distRightArm.x < distLeftArm.x)
+			{
+				GameManager.Instance.rightLeftboolean = true;
+				Debug.Log(distRightArm);
+				Debug.Log(distLeftArm);
+			}
+
 		}
 		if (rayInfo)
 		{
@@ -46,10 +71,12 @@ public class EnemyController : MonoBehaviour
 			{
 				if (!_detected)
 				{
+				
 					_image.enabled = true;
 					_detected = true;
 					_slowMotion = true;
 					Debug.Log("Target Found");
+                    
 				}
 			}
 			else
@@ -80,4 +107,5 @@ public class EnemyController : MonoBehaviour
 			_image.fillAmount = 1;
 		}
 	}
+
 }
