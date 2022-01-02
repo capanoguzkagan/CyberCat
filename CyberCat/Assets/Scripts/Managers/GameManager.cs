@@ -31,8 +31,10 @@ public class GameManager : MonoBehaviour
 
 	public ChainIKConstraint leftShoulder = null;
 	public ChainIKConstraint rightShoulder = null;
+	public MultiAimConstraint headRotation = null;
 	public Transform target = null;
 	public float aiminigSpeed=1f;
+	bool rowbyrow = false;
 	private bool rightLeftBool=false;
 	public bool rightLeftboolean { get { return rightLeftBool; } set { rightLeftBool = value; } }
 	private enum RigAnimMode
@@ -91,6 +93,7 @@ public class GameManager : MonoBehaviour
 			Debug.Log("ShootEnemyEvent");
 			target.position = new Vector3(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
 			mode = RigAnimMode.inc;
+		    armChanging();
 
 		}
 		else
@@ -107,31 +110,23 @@ public class GameManager : MonoBehaviour
             case RigAnimMode.inc:
                 if (!rightLeftboolean)
                 {
-                    leftShoulder.weight = Mathf.Lerp(leftShoulder.weight, 1, aiminigSpeed * Time.deltaTime);
-                    if (leftShoulder.weight > 0.8f)
-                    {
-                        leftShoulder.weight = 0.85f;
-                        mode = RigAnimMode.dec;
-                    }
-                }
+					armAnimation();
+
+				}
                 else if (rightLeftboolean)
                 {
-                    rightShoulder.weight = Mathf.Lerp(rightShoulder.weight, 1, aiminigSpeed*Time.deltaTime);
-                    if (rightShoulder.weight > 0.8f)
-                    {
-                        rightShoulder.weight = 0.85f;
-                        mode = RigAnimMode.dec;
-                    }
+					armAnimation();
                 }
                 break;
             case RigAnimMode.dec:
-                leftShoulder.weight = Mathf.Lerp(leftShoulder.weight, 0, aiminigSpeed * Time.deltaTime);
+				leftShoulder.weight = Mathf.Lerp(leftShoulder.weight, 0, aiminigSpeed * Time.deltaTime);
                 rightShoulder.weight = Mathf.Lerp(rightShoulder.weight, 0, aiminigSpeed * Time.deltaTime);
                 if (leftShoulder.weight < 0.1f)
                 {
                     leftShoulder.weight = 0;
                     rightShoulder.weight = 0;
                     mode = RigAnimMode.off;
+					headRotation.weight = 0;
                 }
                 break;
         }
@@ -145,8 +140,46 @@ public class GameManager : MonoBehaviour
 	{
 		Time.timeScale = 1f;
 	}
+		
 	IEnumerator waiting()
     {
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(1.5f);
+  //      if (rowbyrow)
+  //      {
+		//	rowbyrow = false;
+  //      }
+		//else rowbyrow =true;
+		mode = RigAnimMode.dec;
+	}
+	void armChanging()
+    {
+		if (rowbyrow)
+		{
+			rowbyrow = false;
+		}
+		else rowbyrow = true;
     }
+	void armAnimation()
+    {
+        if (rowbyrow)
+        {
+			leftShoulder.weight = Mathf.Lerp(leftShoulder.weight, 1, aiminigSpeed);
+			headRotation.weight = .5f;
+			//rowbyrow = false;
+			if (leftShoulder.weight > 0.8f)
+			{
+				StartCoroutine(waiting());
+			}
+		}
+		else if (!rowbyrow)
+        {
+			rightShoulder.weight = Mathf.Lerp(rightShoulder.weight, 1, aiminigSpeed);
+			headRotation.weight = .5f;
+			//rowbyrow = true;
+			if (rightShoulder.weight > 0.9f)
+			{
+				StartCoroutine(waiting());
+			}
+		}
+	}
 }

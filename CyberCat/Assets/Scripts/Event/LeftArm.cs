@@ -7,7 +7,6 @@ public class LeftArm : MonoBehaviour
     private bool leftArmBool;
     public bool leftArm { get {return leftArmBool; } set { leftArmBool = value; } }
     public Vector3 leftDistance;
-    GameObject detectedGameObject;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

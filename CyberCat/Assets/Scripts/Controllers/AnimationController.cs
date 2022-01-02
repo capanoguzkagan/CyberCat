@@ -15,6 +15,7 @@ public class AnimationController : MonoBehaviour
     void Update()
     {
         CharacterAnimationMethod();
+        bodyRotation();
     }
     void CharacterAnimationMethod()
     {
@@ -43,8 +44,15 @@ public class AnimationController : MonoBehaviour
         }
         
     }
-    public void characterRotation()
+    void bodyRotation()
     {
-        transform.rotation = Quaternion.Euler(0, 225, 0);
+        if (GameManager.Instance.rightLeftboolean)
+        {
+            transform.rotation = Quaternion.Euler(0, 225, 0);
+        }
+        else if (!GameManager.Instance.rightLeftboolean)
+        {
+            transform.rotation = Quaternion.Euler(0, 135, 0);
+        }
     }
 }

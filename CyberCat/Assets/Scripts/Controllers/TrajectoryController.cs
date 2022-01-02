@@ -253,8 +253,6 @@ public class TrajectoryController : MonoBehaviour
 		Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
 		rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
 		Destroy(bullet, 1f);
-
-		//eren
 	}
 
 	#endregion

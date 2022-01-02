@@ -20,7 +20,6 @@ public class EnemyController : MonoBehaviour
 	GameObject rA;
 	Vector3 distLeftArm;
 	Vector3 distRightArm;
-	public string enemyName;
 
 	void Start()
 	{
