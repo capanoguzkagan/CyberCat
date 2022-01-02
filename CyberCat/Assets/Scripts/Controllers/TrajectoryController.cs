@@ -54,6 +54,7 @@ public class TrajectoryController : MonoBehaviour
 	[Header("Shooting Settings")]
 	public GunType gunType;
 	[SerializeField] Transform firePoint;
+	[SerializeField] Transform[] shotgunTransforms;
 	[SerializeField] GameObject Bullet;
 	[SerializeField] float bulletForce = 20f;
 
@@ -263,8 +264,7 @@ public class TrajectoryController : MonoBehaviour
 				StartCoroutine(ShootingRifle());
 				break;
 			case GunType.Shotgun:
-				break;
-			default:
+				ShootingShotgun();
 				break;
 		}
 	}
@@ -279,6 +279,27 @@ public class TrajectoryController : MonoBehaviour
 		Destroy(bullet, 1f);
 
 		//eren
+	}
+	void ShootingShotgun()
+	{
+		for (int i = 0; i < shotgunTransforms.Length; i++)
+		{
+			GameObject bullet = Instantiate(Bullet, shotgunTransforms[i].position, shotgunTransforms[i].rotation);
+			if (i==0)
+			{
+				Vector3 dir = (new Vector3(GameManager.Instance.hit.point.x, 0, 0) - bullet.transform.position);
+				Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+				rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
+				Destroy(bullet, 1f);
+			}
+			else
+			{
+				Vector3 dir = (new Vector3(GameManager.Instance.hit.point.x,0,0) + shotgunTransforms[i].localEulerAngles);
+				Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+				rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
+				Destroy(bullet, 1f);
+			}
+		}
 	}
 
 	#endregion
