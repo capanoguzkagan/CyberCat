@@ -862,7 +862,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489603891}
-  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -870,7 +870,7 @@ Transform:
   - {fileID: 1903691334}
   m_Father: {fileID: 0}
   m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &517030718
 GameObject:
   m_ObjectHideFlags: 0
@@ -2474,19 +2474,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 094fc8681c22ad44690a74c1a3da0fcd, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.38268343
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 094fc8681c22ad44690a74c1a3da0fcd, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 094fc8681c22ad44690a74c1a3da0fcd, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.92387956
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 094fc8681c22ad44690a74c1a3da0fcd, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 094fc8681c22ad44690a74c1a3da0fcd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2494,7 +2494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 094fc8681c22ad44690a74c1a3da0fcd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 135
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 094fc8681c22ad44690a74c1a3da0fcd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2844,7 +2844,7 @@ MonoBehaviour:
   pushForce: 4
   firePoint: {fileID: 2108449441}
   Bullet: {fileID: 6632653886852876328, guid: e2e68087f1122a4478960982d7e857f5, type: 3}
-  bulletForce: 100
+  bulletForce: 25
 --- !u!70 &1903691338
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -102,11 +102,10 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-		Debug.Log(rightLeftboolean);
         switch (mode)
         {
             case RigAnimMode.inc:
-                if (rightLeftboolean)
+                if (!rightLeftboolean)
                 {
                     leftShoulder.weight = Mathf.Lerp(leftShoulder.weight, 1, aiminigSpeed * Time.deltaTime);
                     if (leftShoulder.weight > 0.8f)
@@ -115,7 +114,7 @@ public class GameManager : MonoBehaviour
                         mode = RigAnimMode.dec;
                     }
                 }
-                else if (!rightLeftboolean)
+                else if (rightLeftboolean)
                 {
                     rightShoulder.weight = Mathf.Lerp(rightShoulder.weight, 1, aiminigSpeed*Time.deltaTime);
                     if (rightShoulder.weight > 0.8f)

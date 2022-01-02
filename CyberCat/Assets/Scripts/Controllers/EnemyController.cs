@@ -53,15 +53,12 @@ public class EnemyController : MonoBehaviour
 			SlowMotion();
 			if (distRightArm.x > distLeftArm.x)
 			{
-				GameManager.Instance.rightLeftboolean = false;
-				Debug.Log(distRightArm);
-				Debug.Log(distLeftArm);
+				GameManager.Instance.rightLeftboolean = true;
+
 			}
 			else if (distRightArm.x < distLeftArm.x)
 			{
-				GameManager.Instance.rightLeftboolean = true;
-				Debug.Log(distRightArm);
-				Debug.Log(distLeftArm);
+				GameManager.Instance.rightLeftboolean = false;
 			}
 
 		}

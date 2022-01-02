@@ -43,4 +43,8 @@ public class AnimationController : MonoBehaviour
         }
         
     }
+    public void characterRotation()
+    {
+        transform.rotation = Quaternion.Euler(0, 225, 0);
+    }
 }

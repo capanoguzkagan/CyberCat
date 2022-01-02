@@ -12,6 +12,9 @@ public class BulletController : MonoBehaviour
 		{
 			Debug.Log("Bullet Hit an Enemy");
 			Destroy(this.gameObject);
+			Destroy(_enemy.gameObject);
+			GameManager.Instance.NormalGameSpeed();
+
 		}
 		else if (trajectoryController!=null)
 		{
