@@ -2,6 +2,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum GunType
+{
+	Pistol,
+	Rifle,
+	Shotgun
+}
 public class TrajectoryController : MonoBehaviour
 {
 	#region TrajectoryController Variables
@@ -46,7 +52,9 @@ public class TrajectoryController : MonoBehaviour
 	#endregion
 
 	[Header("Shooting Settings")]
+	public GunType gunType;
 	[SerializeField] Transform firePoint;
+	[SerializeField] Transform[] shotgunTransforms;
 	[SerializeField] GameObject Bullet;
 	[SerializeField] float bulletForce = 20f;
 
@@ -247,12 +255,49 @@ public class TrajectoryController : MonoBehaviour
 
 	void Shooting()
 	{
+		switch (gunType)
+		{
+			case GunType.Pistol:
+				ShootingPistol();
+				break;
+			case GunType.Rifle:
+				StartCoroutine(ShootingRifle());
+				break;
+			case GunType.Shotgun:
+				ShootingShotgun();
+				break;
+		}
+	}
+
+	void ShootingPistol()
+	{
 
 		GameObject bullet = Instantiate(Bullet, firePoint.position, firePoint.rotation);
 		Vector3 dir = GameManager.Instance.hit.point - bullet.transform.position;
 		Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
 		rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
 		Destroy(bullet, 1f);
+	}
+	void ShootingShotgun()
+	{
+		for (int i = 0; i < shotgunTransforms.Length; i++)
+		{
+			GameObject bullet = Instantiate(Bullet, shotgunTransforms[i].position, shotgunTransforms[i].rotation);
+			if (i==0)
+			{
+				Vector3 dir = (new Vector3(GameManager.Instance.hit.point.x, 0, 0) - bullet.transform.position);
+				Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+				rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
+				Destroy(bullet, 1f);
+			}
+			else
+			{
+				Vector3 dir = (new Vector3(GameManager.Instance.hit.point.x,0,0) + shotgunTransforms[i].localEulerAngles);
+				Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+				rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
+				Destroy(bullet, 1f);
+			}
+		}
 	}
 
 	#endregion
@@ -318,6 +363,15 @@ public class TrajectoryController : MonoBehaviour
 		startPoint = Vector2.zero;
 		endPoint = Vector2.zero;
 		GameManager.Instance.NormalGameSpeed();
+	}
+
+	IEnumerator ShootingRifle()
+	{
+		ShootingPistol();
+		yield return new WaitForSeconds(.05f);
+		ShootingPistol();
+		yield return new WaitForSeconds(.05f);
+		ShootingPistol();
 	}
 
 }

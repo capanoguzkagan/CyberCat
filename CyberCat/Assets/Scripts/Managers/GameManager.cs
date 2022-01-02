@@ -144,11 +144,6 @@ public class GameManager : MonoBehaviour
 	IEnumerator waiting()
     {
 		yield return new WaitForSeconds(1.5f);
-  //      if (rowbyrow)
-  //      {
-		//	rowbyrow = false;
-  //      }
-		//else rowbyrow =true;
 		mode = RigAnimMode.dec;
 	}
 	void armChanging()
