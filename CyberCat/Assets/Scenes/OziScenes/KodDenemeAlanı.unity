@@ -450,6 +450,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   pushForce: 4
+  gunType: 0
   firePoint: {fileID: 34660740}
   Bullet: {fileID: 6632653886852876328, guid: e2e68087f1122a4478960982d7e857f5, type: 3}
   bulletForce: 100
@@ -2842,6 +2843,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   pushForce: 4
+  gunType: 0
   firePoint: {fileID: 2108449441}
   Bullet: {fileID: 6632653886852876328, guid: e2e68087f1122a4478960982d7e857f5, type: 3}
   bulletForce: 25

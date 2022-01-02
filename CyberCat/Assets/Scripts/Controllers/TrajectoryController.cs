@@ -2,6 +2,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum GunType
+{
+	Pistol,
+	Rifle,
+	Shotgun
+}
 public class TrajectoryController : MonoBehaviour
 {
 	#region TrajectoryController Variables
@@ -46,6 +52,7 @@ public class TrajectoryController : MonoBehaviour
 	#endregion
 
 	[Header("Shooting Settings")]
+	public GunType gunType;
 	[SerializeField] Transform firePoint;
 	[SerializeField] GameObject Bullet;
 	[SerializeField] float bulletForce = 20f;
@@ -247,6 +254,23 @@ public class TrajectoryController : MonoBehaviour
 
 	void Shooting()
 	{
+		switch (gunType)
+		{
+			case GunType.Pistol:
+				ShootingPistol();
+				break;
+			case GunType.Rifle:
+				StartCoroutine(ShootingRifle());
+				break;
+			case GunType.Shotgun:
+				break;
+			default:
+				break;
+		}
+	}
+
+	void ShootingPistol()
+	{
 
 		GameObject bullet = Instantiate(Bullet, firePoint.position, firePoint.rotation);
 		Vector3 dir = GameManager.Instance.hit.point - bullet.transform.position;
@@ -320,6 +344,15 @@ public class TrajectoryController : MonoBehaviour
 		startPoint = Vector2.zero;
 		endPoint = Vector2.zero;
 		GameManager.Instance.NormalGameSpeed();
+	}
+
+	IEnumerator ShootingRifle()
+	{
+		ShootingPistol();
+		yield return new WaitForSeconds(.05f);
+		ShootingPistol();
+		yield return new WaitForSeconds(.05f);
+		ShootingPistol();
 	}
 
 }
