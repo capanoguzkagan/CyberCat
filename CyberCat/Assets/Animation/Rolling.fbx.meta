@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 58675bce060716c4eab6b601f1e5b29c
+guid: cbc1a6bd87caa1342a9e59037895938d
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: -623603649343465320
-    second: isfree
+      74: -203655887218126122
+    second: Stand To Roll
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: isfree
-      takeName: Scene
+      name: Stand To Roll
+      takeName: mixamo.com
       internalID: 0
-      firstFrame: 1
-      lastFrame: 30
+      firstFrame: 0
+      lastFrame: 71
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -52,9 +52,9 @@ ModelImporter:
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
-      heightFromFeet: 0
+      heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []

@@ -63,8 +63,9 @@ public class TrajectoryController : MonoBehaviour
 	private Joystick joystick;
 	bool isTrajectoryOn;
 
-    #region Enable-Disable
+	#region Enable-Disable
 
+	public int arrowLR = 0;
     private void OnDisable()
 	{
 		GameManager.Instance.OnPressEvent -= TrajectoryOn;
@@ -196,6 +197,7 @@ public class TrajectoryController : MonoBehaviour
 		ArrowR.transform.localScale = ArrowRightScale;
 		ArrowL.SetActive(false);
 		ArrowL.transform.localScale = ArrowLeftScale;
+		arrowLR = 0;
 	}
 	public void Hide()
 	{
@@ -204,6 +206,7 @@ public class TrajectoryController : MonoBehaviour
 		ArrowL.SetActive(false);
 		ArrowL.transform.localScale = ArrowLeftScale;
 		_TrajectoryLine.SetActive(false);
+		arrowLR = 0;
 	}
 	private void ArrowRight()
 	{
@@ -212,6 +215,8 @@ public class TrajectoryController : MonoBehaviour
 		ArrowL.SetActive(false);
 		ArrowL.transform.localScale = ArrowLeftScale;
 		_TrajectoryLine.SetActive(false);
+		arrowLR = 1;
+		transform.rotation = Quaternion.Euler(0, 135, 0);
 	}
 	private void ArrowLeft()
 	{
@@ -220,6 +225,8 @@ public class TrajectoryController : MonoBehaviour
 		ArrowR.SetActive(false);
 		ArrowR.transform.localScale = ArrowRightScale;
 		_TrajectoryLine.SetActive(false);
+		arrowLR = 1;
+		transform.rotation = Quaternion.Euler(0, 225, 0);
 	}
 	#endregion
 
@@ -243,6 +250,14 @@ public class TrajectoryController : MonoBehaviour
 	private void RelaseEventTriggered()
 	{
 		isTrajectoryOn = false;
+        if (arrowLR == 1)
+        {
+			GameManager.Instance.rollingAnim = true;
+		}
+        else if (arrowLR == 0)
+        {
+			GameManager.Instance.rollingAnim = false;
+        }
 	}
 
 	void TrajectoryOn()
@@ -265,6 +280,8 @@ public class TrajectoryController : MonoBehaviour
 				break;
 			case GunType.Shotgun:
 				ShootingShotgun();
+				break;
+			default:
 				break;
 		}
 	}

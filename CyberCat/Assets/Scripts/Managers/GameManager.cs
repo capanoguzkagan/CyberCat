@@ -35,8 +35,10 @@ public class GameManager : MonoBehaviour
 	public Transform target = null;
 	public float aiminigSpeed=1f;
 	bool rowbyrow = false;
+	public bool rollingAnim = false;
 	private bool rightLeftBool=false;
 	public bool rightLeftboolean { get { return rightLeftBool; } set { rightLeftBool = value; } }
+
 	private enum RigAnimMode
     {
 		off,

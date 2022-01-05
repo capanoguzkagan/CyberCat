@@ -450,7 +450,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   pushForce: 4
+  gunType: 0
   firePoint: {fileID: 34660740}
+  shotgunTransforms: []
   Bullet: {fileID: 6632653886852876328, guid: e2e68087f1122a4478960982d7e857f5, type: 3}
   bulletForce: 100
 --- !u!70 &218090076
@@ -546,6 +548,7 @@ MonoBehaviour:
   headRotation: {fileID: 493557388}
   target: {fileID: 2020756794}
   aiminigSpeed: 5
+  rollingAnim: 0
 --- !u!4 &240625566
 Transform:
   m_ObjectHideFlags: 0
@@ -970,7 +973,7 @@ GameObject:
   - component: {fileID: 517030719}
   - component: {fileID: 517030720}
   m_Layer: 0
-  m_Name: leftShoulder
+  m_Name: leftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2275,7 +2278,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1788891604}
   m_LocalRotation: {x: -0, y: -0, z: 0.000000011175871, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 489603892}
@@ -2873,7 +2876,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 384
   pushForce: 4
+  gunType: 0
   firePoint: {fileID: 2108449441}
+  shotgunTransforms: []
   Bullet: {fileID: 6632653886852876328, guid: e2e68087f1122a4478960982d7e857f5, type: 3}
   bulletForce: 100
 --- !u!70 &1903691338
@@ -3773,7 +3778,7 @@ GameObject:
   - component: {fileID: 2112633775}
   - component: {fileID: 2112633776}
   m_Layer: 0
-  m_Name: rightShoulder
+  m_Name: rightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
