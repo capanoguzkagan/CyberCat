@@ -28,24 +28,31 @@ public class GameManager : MonoBehaviour
 	private bool leftBool;
     public bool RightArmBoolean { get { return rightBool; } set { rightBool = value; } }
 	public bool LeftArmBoolean { get { return leftBool; } set { leftBool = value; } }
-
+	[Header("Target System")]
 	public ChainIKConstraint leftShoulder = null;
 	public ChainIKConstraint rightShoulder = null;
+	public ChainIKConstraint rifleLeftArm = null;
+	public ChainIKConstraint rifleRightArm = null;
 	public MultiAimConstraint headRotation = null;
-	public Transform target = null;
+	public Transform Rifletarget2=null;
+	public Transform lfRightBone;
+
 	public float aiminigSpeed=1f;
 	bool rowbyrow = false;
 	public bool rollingAnim = false;
 	private bool rightLeftBool=false;
 	public bool rightLeftboolean { get { return rightLeftBool; } set { rightLeftBool = value; } }
+	public bool detectedBoolean { get; set; }
+	AnimationController animationController;
 
-	private enum RigAnimMode
+	public enum RigAnimMode
     {
 		off,
 		inc,
 		dec,
     }
-	private RigAnimMode mode = RigAnimMode.off;
+	public RigAnimMode mode = RigAnimMode.off;
+    TrajectoryController tController;
 
 	public RaycastHit hit;
 	private void OnEnable()
@@ -76,6 +83,8 @@ public class GameManager : MonoBehaviour
     {
         SingletonThisObject();
 		_playerInput = new PlayerInput();
+		tController = GameObject.Find("Player2").transform.GetChild(1).GetComponent<TrajectoryController>();
+		animationController = GameObject.Find("Player2").transform.GetChild(1).GetComponent<AnimationController>();
 	}
 	private void Start()
 	{
@@ -93,9 +102,12 @@ public class GameManager : MonoBehaviour
 		{
 			ShootEnemyEvent?.Invoke();
 			Debug.Log("ShootEnemyEvent");
-			target.position = new Vector3(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
-			mode = RigAnimMode.inc;
-		    armChanging();
+			//target.position = new Vector3(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
+            if (tController.gunType == GunType.Pistol)
+            {
+				armChanging();
+			}
+		    
 
 		}
 		else
@@ -107,32 +119,78 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        switch (mode)
+        if (tController.gunType==GunType.Pistol)
         {
-            case RigAnimMode.inc:
-                if (!rightLeftboolean)
-                {
-					armAnimation();
+			switch (mode)
+			{
+				case RigAnimMode.inc:
+					if (!rightLeftboolean)
+					{
+						armAnimation();
 
-				}
-                else if (rightLeftboolean)
-                {
-					armAnimation();
-                }
-                break;
-            case RigAnimMode.dec:
-				leftShoulder.weight = Mathf.Lerp(leftShoulder.weight, 0, aiminigSpeed * Time.deltaTime);
-                rightShoulder.weight = Mathf.Lerp(rightShoulder.weight, 0, aiminigSpeed * Time.deltaTime);
-                if (leftShoulder.weight < 0.1f)
-                {
-                    leftShoulder.weight = 0;
-                    rightShoulder.weight = 0;
-                    mode = RigAnimMode.off;
-					headRotation.weight = 0;
-                }
-                break;
+					}
+					else if (rightLeftboolean)
+					{
+						armAnimation();
+					}
+					break;
+				case RigAnimMode.dec:
+					leftShoulder.weight = Mathf.Lerp(leftShoulder.weight, 0, aiminigSpeed * Time.deltaTime);
+					rightShoulder.weight = Mathf.Lerp(rightShoulder.weight, 0, aiminigSpeed * Time.deltaTime);
+					if (leftShoulder.weight < 0.1f)
+					{
+						leftShoulder.weight = 0;
+						rightShoulder.weight = 0;
+						mode = RigAnimMode.off;
+						headRotation.weight = 0;
+					}
+					break;
+			}
+		}
+		else if (tController.gunType == GunType.Rifle)
+        {
+			Rifletarget2.position = new Vector3(lfRightBone.transform.position.x, lfRightBone.transform.position.y, lfRightBone.transform.position.z);
+			switch (mode)
+            {
+				case RigAnimMode.inc:
+					rifleRightArm.weight = Mathf.Lerp(rifleRightArm.weight, 1, aiminigSpeed);
+					rifleLeftArm.weight = Mathf.Lerp(rifleLeftArm.weight, 1, aiminigSpeed);
+					headRotation.weight = .5f;
+					
+					if (rifleRightArm.weight > 0.8f)
+					{
+						StartCoroutine(waiting());
+					}
+					break;
+				case RigAnimMode.dec:
+					rifleRightArm.weight = Mathf.Lerp(rifleRightArm.weight, 0, aiminigSpeed*Time.deltaTime);
+					rifleLeftArm.weight = Mathf.Lerp(rifleLeftArm.weight, 0, aiminigSpeed * Time.deltaTime);
+					if (rifleRightArm.weight < 0.1f)
+					{
+						rifleRightArm.weight = 0;
+						rifleLeftArm.weight = 0;
+						mode = RigAnimMode.off;
+						headRotation.weight = 0;
+					}
+					break;
+
+			}
         }
+        
     }
+    private void LateUpdate()
+    {
+        if (tController.gunType == GunType.Rifle)
+        {
+            if (mode==RigAnimMode.inc)
+            {
+				animationController.rightHandSkeleton.localEulerAngles = new Vector3
+										(animationController.rightHandSkeleton.localEulerAngles.x, 0, animationController.rightHandSkeleton.localEulerAngles.z);
+			}
+			
+		}
+		
+	}
     public void SlowMotion()
 	{
 		Time.timeScale = 0.1f;
@@ -162,7 +220,6 @@ public class GameManager : MonoBehaviour
         {
 			leftShoulder.weight = Mathf.Lerp(leftShoulder.weight, 1, aiminigSpeed);
 			headRotation.weight = .5f;
-			//rowbyrow = false;
 			if (leftShoulder.weight > 0.8f)
 			{
 				StartCoroutine(waiting());
@@ -172,7 +229,6 @@ public class GameManager : MonoBehaviour
         {
 			rightShoulder.weight = Mathf.Lerp(rightShoulder.weight, 1, aiminigSpeed);
 			headRotation.weight = .5f;
-			//rowbyrow = true;
 			if (rightShoulder.weight > 0.9f)
 			{
 				StartCoroutine(waiting());

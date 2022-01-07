@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
 	Image _image;
 
 	float _time;
-	public bool _detected;
+	public bool _detected=false;
 	bool _slowMotion;
 	Vector2 _direction;
 
@@ -20,6 +20,7 @@ public class EnemyController : MonoBehaviour
 	GameObject rA;
 	Vector3 distLeftArm;
 	Vector3 distRightArm;
+	GameObject target = null;
 
 	void Start()
 	{
@@ -28,6 +29,7 @@ public class EnemyController : MonoBehaviour
 		_image = GetComponentInChildren<Image>();
 		_image.fillAmount = 1;
 		_time = 1;
+		target = GameObject.Find("Target");
 	}
 
 	// Update is called once per frame
@@ -50,6 +52,10 @@ public class EnemyController : MonoBehaviour
 		if (_detected)
 		{
 			SlowMotion();
+			target.transform.position = this.transform.position;
+			GameManager.Instance.detectedBoolean = true;
+			GameManager.Instance.mode = GameManager.RigAnimMode.inc;
+			
 			if (distRightArm.x > distLeftArm.x)
 			{
 				GameManager.Instance.rightLeftboolean = true;

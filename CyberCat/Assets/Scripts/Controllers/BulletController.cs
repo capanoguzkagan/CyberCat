@@ -12,8 +12,10 @@ public class BulletController : MonoBehaviour
 		{
 			Debug.Log("Bullet Hit an Enemy");
 			Destroy(this.gameObject);
-			//Destroy(_enemy.gameObject.transform.parent.gameObject);
-			Destroy(_enemy.gameObject);
+			Destroy(_enemy.gameObject.transform.parent.gameObject);
+			//Destroy(_enemy.gameObject);
+			GameManager.Instance.rifleLeftArm.weight = 0;
+			GameManager.Instance.rifleRightArm.weight = 0;
 			GameManager.Instance.NormalGameSpeed();
 
 		}

@@ -66,7 +66,7 @@ public class TrajectoryController : MonoBehaviour
 	#region Enable-Disable
 
 	public int arrowLR = 0;
-    private void OnDisable()
+	private void OnDisable()
 	{
 		GameManager.Instance.OnPressEvent -= TrajectoryOn;
 		GameManager.Instance.ReleaseEvent -= RelaseEventTriggered;
@@ -88,6 +88,8 @@ public class TrajectoryController : MonoBehaviour
 		g = Mathf.Abs(Physics2D.gravity.y);
 		ArrowRightScale = ArrowR.transform.localScale;
 		ArrowLeftScale = ArrowL.transform.localScale;
+
+		
 	}
 
 	#region Trajectory Controller

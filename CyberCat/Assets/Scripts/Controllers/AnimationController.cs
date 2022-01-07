@@ -7,12 +7,13 @@ public class AnimationController : MonoBehaviour
     Animator _anim;
     public Vector3 offset;
     TrajectoryController tConroller;
-    EnemyController eController;
+    public Transform rightHandSkeleton = null;
+
     void Start()
     {
         _anim = GetComponent<Animator>();
         tConroller = GetComponent<TrajectoryController>();
-        eController = GetComponent<EnemyController>();
+        rightHandSkeleton = _anim.GetBoneTransform(HumanBodyBones.RightHand);
     }
 
     
@@ -56,13 +57,16 @@ public class AnimationController : MonoBehaviour
     }
     void bodyRotation()
     {
-        if (eController._detected&&GameManager.Instance.rightLeftboolean&&tConroller.arrowLR==0)
+        if(GameManager.Instance.detectedBoolean && tConroller.arrowLR == 0)
         {
-            transform.rotation = Quaternion.Euler(0, 225, 0);
-        }
-        else if (eController._detected && !GameManager.Instance.rightLeftboolean&& tConroller.arrowLR == 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 135, 0);
+            if (GameManager.Instance.rightLeftboolean)
+            {
+                transform.rotation = Quaternion.Euler(0, 225, 0);
+            }
+            else if (!GameManager.Instance.rightLeftboolean)
+            {
+                transform.rotation = Quaternion.Euler(0, 135, 0);
+            }
         }
     }
     public void rollingAnim()
