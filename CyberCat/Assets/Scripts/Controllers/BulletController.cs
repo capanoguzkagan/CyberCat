@@ -14,8 +14,10 @@ public class BulletController : MonoBehaviour
 			Destroy(this.gameObject);
 			Destroy(_enemy.gameObject.transform.parent.gameObject);
 			//Destroy(_enemy.gameObject);
-			GameManager.Instance.rifleLeftArm.weight = 0;
-			GameManager.Instance.rifleRightArm.weight = 0;
+			GameManager.Instance.rifleRLArm.weight = 0;
+			GameManager.Instance.rifleLLArm.weight = 0;
+			GameManager.Instance.rifleLLArm.weight = 0;
+			GameManager.Instance.rifleLRArm.weight = 0;
 			GameManager.Instance.NormalGameSpeed();
 
 		}

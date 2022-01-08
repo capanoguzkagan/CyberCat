@@ -21,6 +21,7 @@ public class EnemyController : MonoBehaviour
 	Vector3 distLeftArm;
 	Vector3 distRightArm;
 	GameObject target = null;
+	AnimationController animationController;
 
 	void Start()
 	{
@@ -30,6 +31,8 @@ public class EnemyController : MonoBehaviour
 		_image.fillAmount = 1;
 		_time = 1;
 		target = GameObject.Find("Target");
+
+		animationController = GameObject.Find("Player2").transform.GetChild(1).GetComponent<AnimationController>();
 	}
 
 	// Update is called once per frame
@@ -53,7 +56,7 @@ public class EnemyController : MonoBehaviour
 		{
 			SlowMotion();
 			target.transform.position = this.transform.position;
-			GameManager.Instance.detectedBoolean = true;
+			animationController.bodyRotation();
 			GameManager.Instance.mode = GameManager.RigAnimMode.inc;
 			
 			if (distRightArm.x > distLeftArm.x)

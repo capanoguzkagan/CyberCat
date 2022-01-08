@@ -71,7 +71,6 @@ public class TrajectoryController : MonoBehaviour
 		GameManager.Instance.OnPressEvent -= TrajectoryOn;
 		GameManager.Instance.ReleaseEvent -= RelaseEventTriggered;
 	}
-
 	#endregion
 
 	private void Start()
@@ -88,8 +87,6 @@ public class TrajectoryController : MonoBehaviour
 		g = Mathf.Abs(Physics2D.gravity.y);
 		ArrowRightScale = ArrowR.transform.localScale;
 		ArrowLeftScale = ArrowL.transform.localScale;
-
-		
 	}
 
 	#region Trajectory Controller
@@ -227,7 +224,7 @@ public class TrajectoryController : MonoBehaviour
 		ArrowR.SetActive(false);
 		ArrowR.transform.localScale = ArrowRightScale;
 		_TrajectoryLine.SetActive(false);
-		arrowLR = 1;
+		arrowLR = 2;
 		transform.rotation = Quaternion.Euler(0, 225, 0);
 	}
 	#endregion
@@ -246,16 +243,19 @@ public class TrajectoryController : MonoBehaviour
 
 	#endregion
 
-
 	#region Event Functions
 
 	private void RelaseEventTriggered()
 	{
 		isTrajectoryOn = false;
-        if (arrowLR == 1)
-        {
+		if (arrowLR == 1)
+        {			
 			GameManager.Instance.rollingAnim = true;
 		}
+		else if (arrowLR == 2)
+        {
+			GameManager.Instance.rollingAnim = true;
+        }
         else if (arrowLR == 0)
         {
 			GameManager.Instance.rollingAnim = false;

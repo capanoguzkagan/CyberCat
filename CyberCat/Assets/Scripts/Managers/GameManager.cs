@@ -31,10 +31,13 @@ public class GameManager : MonoBehaviour
 	[Header("Target System")]
 	public ChainIKConstraint leftShoulder = null;
 	public ChainIKConstraint rightShoulder = null;
-	public ChainIKConstraint rifleLeftArm = null;
-	public ChainIKConstraint rifleRightArm = null;
+	public ChainIKConstraint rifleRLArm = null;
+	public ChainIKConstraint rifleRRArm = null;
+	public ChainIKConstraint rifleLLArm = null;
+	public ChainIKConstraint rifleLRArm = null;
 	public MultiAimConstraint headRotation = null;
 	public Transform Rifletarget2=null;
+	public Transform rfLeftBone= null;
 	public Transform lfRightBone;
 
 	public float aiminigSpeed=1f;
@@ -42,8 +45,6 @@ public class GameManager : MonoBehaviour
 	public bool rollingAnim = false;
 	private bool rightLeftBool=false;
 	public bool rightLeftboolean { get { return rightLeftBool; } set { rightLeftBool = value; } }
-	public bool detectedBoolean { get; set; }
-	AnimationController animationController;
 
 	public enum RigAnimMode
     {
@@ -53,7 +54,7 @@ public class GameManager : MonoBehaviour
     }
 	public RigAnimMode mode = RigAnimMode.off;
     TrajectoryController tController;
-
+	AnimationController animationController;
 	public RaycastHit hit;
 	private void OnEnable()
 	{
@@ -149,26 +150,55 @@ public class GameManager : MonoBehaviour
 		}
 		else if (tController.gunType == GunType.Rifle)
         {
-			Rifletarget2.position = new Vector3(lfRightBone.transform.position.x, lfRightBone.transform.position.y, lfRightBone.transform.position.z);
+            if (animationController.rightRifle.activeSelf)
+            {
+				Rifletarget2.position = new Vector3(lfRightBone.transform.position.x, lfRightBone.transform.position.y, lfRightBone.transform.position.z);
+			}
+			else if (animationController.leftRifle.activeSelf)
+            {
+				Rifletarget2.position = new Vector3(rfLeftBone.transform.position.x, rfLeftBone.transform.position.y, rfLeftBone.transform.position.z);
+			}
 			switch (mode)
             {
 				case RigAnimMode.inc:
-					rifleRightArm.weight = Mathf.Lerp(rifleRightArm.weight, 1, aiminigSpeed);
-					rifleLeftArm.weight = Mathf.Lerp(rifleLeftArm.weight, 1, aiminigSpeed);
-					headRotation.weight = .5f;
-					
-					if (rifleRightArm.weight > 0.8f)
-					{
-						StartCoroutine(waiting());
+                    if (animationController.rightRifle.activeSelf)
+                    {
+						rifleRRArm.weight = Mathf.Lerp(rifleRRArm.weight, 1, aiminigSpeed);
+						rifleRLArm.weight = Mathf.Lerp(rifleRLArm.weight, 1, aiminigSpeed);
+						headRotation.weight = .5f;
+						rifleLRArm.weight = 0;
+						rifleLLArm.weight = 0;
+
+						if (rifleRRArm.weight > 0.8f)
+						{
+							StartCoroutine(waiting());
+						}
 					}
+					else if (animationController.leftRifle.activeSelf)
+                    {
+						rifleLRArm.weight = Mathf.Lerp(rifleRRArm.weight, 1, aiminigSpeed);
+						rifleLLArm.weight = Mathf.Lerp(rifleRLArm.weight, 1, aiminigSpeed);
+						headRotation.weight = .5f;
+						rifleRRArm.weight = 0;
+						rifleRLArm.weight = 0;
+						if (rifleLLArm.weight > 0.8f)
+                        {
+							StartCoroutine(waiting());
+                        }
+					}
+					
 					break;
 				case RigAnimMode.dec:
-					rifleRightArm.weight = Mathf.Lerp(rifleRightArm.weight, 0, aiminigSpeed*Time.deltaTime);
-					rifleLeftArm.weight = Mathf.Lerp(rifleLeftArm.weight, 0, aiminigSpeed * Time.deltaTime);
-					if (rifleRightArm.weight < 0.1f)
+					rifleRRArm.weight = Mathf.Lerp(rifleRRArm.weight, 0, aiminigSpeed*Time.deltaTime);
+					rifleRLArm.weight = Mathf.Lerp(rifleRLArm.weight, 0, aiminigSpeed * Time.deltaTime);
+					rifleLRArm.weight = Mathf.Lerp(rifleRRArm.weight, 0, aiminigSpeed*Time.deltaTime);
+					rifleLLArm.weight = Mathf.Lerp(rifleRLArm.weight, 0, aiminigSpeed*Time.deltaTime);
+					if (rifleRRArm.weight < 0.1f)
 					{
-						rifleRightArm.weight = 0;
-						rifleLeftArm.weight = 0;
+						rifleRRArm.weight = 0;
+						rifleRLArm.weight = 0;
+						rifleLRArm.weight = 0;
+						rifleLLArm.weight = 0;
 						mode = RigAnimMode.off;
 						headRotation.weight = 0;
 					}
@@ -178,19 +208,6 @@ public class GameManager : MonoBehaviour
         }
         
     }
-    private void LateUpdate()
-    {
-        if (tController.gunType == GunType.Rifle)
-        {
-            if (mode==RigAnimMode.inc)
-            {
-				animationController.rightHandSkeleton.localEulerAngles = new Vector3
-										(animationController.rightHandSkeleton.localEulerAngles.x, 0, animationController.rightHandSkeleton.localEulerAngles.z);
-			}
-			
-		}
-		
-	}
     public void SlowMotion()
 	{
 		Time.timeScale = 0.1f;
