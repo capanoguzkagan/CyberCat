@@ -173,24 +173,24 @@ public class TrajectoryController : MonoBehaviour
 			lineActive();//On Ground
 		}
 		else if (GameManager.isWall)
-        {
+		{
 			lineActive();//On Wall
 		}
 		else
 		{
 			Hide();//Aynýsý hide() functionunda da var direk .
-			/*
-			_TrajectoryLine.SetActive(false);
-			ArrowR.SetActive(false);
-			ArrowR.transform.localScale = ArrowRightScale;
-			ArrowL.SetActive(false);
-			ArrowL.transform.localScale = ArrowLeftScale;
-			*/
+				   /*
+				   _TrajectoryLine.SetActive(false);
+				   ArrowR.SetActive(false);
+				   ArrowR.transform.localScale = ArrowRightScale;
+				   ArrowL.SetActive(false);
+				   ArrowL.transform.localScale = ArrowLeftScale;
+				   */
 
 		}
 	}
 	public void lineActive()
-    {
+	{
 		_TrajectoryLine.SetActive(true);
 		ArrowR.SetActive(false);
 		ArrowR.transform.localScale = ArrowRightScale;
@@ -249,17 +249,17 @@ public class TrajectoryController : MonoBehaviour
 	{
 		isTrajectoryOn = false;
 		if (arrowLR == 1)
-        {			
+		{
 			GameManager.Instance.rollingAnim = true;
 		}
 		else if (arrowLR == 2)
-        {
+		{
 			GameManager.Instance.rollingAnim = true;
-        }
-        else if (arrowLR == 0)
-        {
+		}
+		else if (arrowLR == 0)
+		{
 			GameManager.Instance.rollingAnim = false;
-        }
+		}
 	}
 
 	void TrajectoryOn()
@@ -290,8 +290,7 @@ public class TrajectoryController : MonoBehaviour
 
 	void ShootingPistol()
 	{
-
-		GameObject bullet = Instantiate(Bullet, firePoint.position, firePoint.rotation);
+		GameObject bullet = Instantiate(Bullet, firePoint.position, Quaternion.Euler(GameManager.Instance.hit.point));
 		Vector3 dir = GameManager.Instance.hit.point - bullet.transform.position;
 		Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
 		rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
@@ -299,24 +298,18 @@ public class TrajectoryController : MonoBehaviour
 	}
 	void ShootingShotgun()
 	{
+		var orig = shotgunTransforms[0].transform.localEulerAngles;
+		Vector3 dir = GameManager.Instance.hit.point;
+		shotgunTransforms[0].transform.parent.gameObject.transform.LookAt(dir);
 		for (int i = 0; i < shotgunTransforms.Length; i++)
 		{
-			GameObject bullet = Instantiate(Bullet, shotgunTransforms[i].position, shotgunTransforms[i].rotation);
-			if (i==0)
-			{
-				Vector3 dir = (new Vector3(GameManager.Instance.hit.point.x, 0, 0) - bullet.transform.position);
-				Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
-				rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
-				Destroy(bullet, 1f);
-			}
-			else
-			{
-				Vector3 dir = (new Vector3(GameManager.Instance.hit.point.x,0,0) + shotgunTransforms[i].localEulerAngles);
-				Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
-				rbBullet.AddForce(dir * bulletForce, ForceMode2D.Impulse);
-				Destroy(bullet, 1f);
-			}
+			GameObject bullet = Instantiate(Bullet, shotgunTransforms[i].transform.parent.transform.position, Quaternion.Euler(shotgunTransforms[i].rotation.x, shotgunTransforms[i].rotation.y, shotgunTransforms[i].rotation.z+90));
+			Rigidbody2D rbBullet = bullet.GetComponent<Rigidbody2D>();
+			Vector3 dire = new Vector3(shotgunTransforms[i].position.x, shotgunTransforms[i].position.y, shotgunTransforms[i].position.z);
+			rbBullet.AddForce(dire * bulletForce, ForceMode2D.Impulse);
+			Destroy(bullet, 1f);
 		}
+		shotgunTransforms[0].transform.parent.gameObject.transform.localEulerAngles = orig;
 	}
 
 	#endregion
