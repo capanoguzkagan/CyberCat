@@ -3,7 +3,27 @@ guid: 2bc92d786fdb71946be3d283c3d7c7db
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: colored
+    second: {fileID: 2100000, guid: 4b0ca63aded5b4d4486f80e3f21fa1ff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: shirt
+    second: {fileID: 2100000, guid: ca85d0c1c03b72546ac355e18391be58, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: suit
+    second: {fileID: 2100000, guid: efc2487c43e1cfd4a8dc0b7e73f08b8d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tie
+    second: {fileID: 2100000, guid: c1be527a816499045a3d5e873a9c5bff, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

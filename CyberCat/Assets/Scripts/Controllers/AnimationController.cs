@@ -61,7 +61,6 @@ public class AnimationController : MonoBehaviour
         }
         if (tController.gunType == GunType.Rifle)
         {
-            Debug.Log(tController.arrowLR);
             if (tController.arrowLR == 2)
             {
                 _anim.SetFloat("RifleIdleParam", 1);
