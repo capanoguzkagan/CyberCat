@@ -122,6 +122,7 @@ public class GameManager : MonoBehaviour
     {
         if (tController.gunType==GunType.Pistol)
         {
+			rifleWeightZero();
 			switch (mode)
 			{
 				case RigAnimMode.inc:
@@ -140,17 +141,17 @@ public class GameManager : MonoBehaviour
 					rightShoulder.weight = Mathf.Lerp(rightShoulder.weight, 0, aiminigSpeed * Time.deltaTime);
 					if (leftShoulder.weight < 0.1f)
 					{
-						leftShoulder.weight = 0;
-						rightShoulder.weight = 0;
+						pistolWeightZero();
 						mode = RigAnimMode.off;
 						headRotation.weight = 0;
 					}
 					break;
 			}
 		}
-		else if (tController.gunType == GunType.Rifle)
+		else if (tController.gunType == GunType.Rifle)			
         {
-            if (animationController.rightRifle.activeSelf)
+			pistolWeightZero();
+			if (animationController.rightRifle.activeSelf)
             {
 				Rifletarget2.position = new Vector3(lfRightBone.transform.position.x, lfRightBone.transform.position.y, lfRightBone.transform.position.z);
 			}
@@ -195,10 +196,7 @@ public class GameManager : MonoBehaviour
 					rifleLLArm.weight = Mathf.Lerp(rifleRLArm.weight, 0, aiminigSpeed*Time.deltaTime);
 					if (rifleRRArm.weight < 0.1f)
 					{
-						rifleRRArm.weight = 0;
-						rifleRLArm.weight = 0;
-						rifleLRArm.weight = 0;
-						rifleLLArm.weight = 0;
+						rifleWeightZero();
 						mode = RigAnimMode.off;
 						headRotation.weight = 0;
 					}
@@ -251,5 +249,17 @@ public class GameManager : MonoBehaviour
 				StartCoroutine(waiting());
 			}
 		}
+	}
+	void rifleWeightZero()
+    {
+		rifleRRArm.weight = 0;
+		rifleRLArm.weight = 0;
+		rifleLRArm.weight = 0;
+		rifleLLArm.weight = 0;
+	}
+	void pistolWeightZero()
+    {
+		leftShoulder.weight = 0;
+		rightShoulder.weight = 0;
 	}
 }

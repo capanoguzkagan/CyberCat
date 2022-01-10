@@ -6,6 +6,9 @@ ModelImporter:
   - first:
       74: -203655887218126122
     second: Rolling
+  - first:
+      74: 6363703806791269319
+    second: Stand To Roll
   externalObjects: {}
   materials:
     materialImportMode: 2
