@@ -58,7 +58,6 @@ public class EnemyController : MonoBehaviour
 			target.transform.position = this.transform.position;
 			animationController.bodyRotation();
 			GameManager.Instance.mode = GameManager.RigAnimMode.inc;
-			
 			if (distRightArm.x > distLeftArm.x)
 			{
 				GameManager.Instance.rightLeftboolean = true;
@@ -76,7 +75,7 @@ public class EnemyController : MonoBehaviour
 			{
 				if (!_detected)
 				{
-				
+
 					_image.enabled = true;
 					_detected = true;
 					_slowMotion = true;
@@ -97,7 +96,6 @@ public class EnemyController : MonoBehaviour
 				_slowMotion = false;
 			}
 		}
-
 	}
 	void SlowMotion()
 	{

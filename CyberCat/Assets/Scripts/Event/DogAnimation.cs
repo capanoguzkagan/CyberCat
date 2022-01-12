@@ -26,17 +26,18 @@ public class DogAnimation : MonoBehaviour
     }
     void DogDetectedPlayer()
     {
+        
         if (enemyController._detected)
         {
             _animator.SetBool("DogDetectPlayer", true);
-            DogLeftHandChain.weight = 1;
-            DogRightHandAim.weight = 1;
+            this.DogLeftHandChain.weight = 1;
+            this.DogRightHandAim.weight = 1;
         }
         else if (!enemyController._detected)
         {
             _animator.SetBool("DogDetectPlayer", false);
-            DogLeftHandChain.weight = 0;
-            DogRightHandAim.weight = 0;
+            this.DogLeftHandChain.weight = 0;
+            this.DogRightHandAim.weight = 0;
         }
     }
 

@@ -7,6 +7,7 @@ public class AnimationController : MonoBehaviour
     Animator _anim;
     public Vector3 offset;
     TrajectoryController tController;
+    EnemyController eController;
     public Transform rightHandSkeleton = null;
     public Transform leftHandSkeleton = null;
     public GameObject leftRifle;
@@ -27,10 +28,11 @@ public class AnimationController : MonoBehaviour
         CharacterAnimationMethod();
         //bodyRotation();
         //rollingAnim();
-        
+        characterAimingAnim();
     }
     void CharacterAnimationMethod()
     {
+
         if (!(GameManager.isGround) && !(GameManager.isWall))
         {
             _anim.SetBool("isJump", true);
@@ -87,7 +89,7 @@ public class AnimationController : MonoBehaviour
                 rightHandSkeleton.localEulerAngles = new Vector3
                                         (rightHandSkeleton.localEulerAngles.x, 0, rightHandSkeleton.localEulerAngles.z);
             }
-            else if(GameManager.Instance.mode == GameManager.RigAnimMode.inc && leftRifle.activeSelf)
+            else if (GameManager.Instance.mode == GameManager.RigAnimMode.inc && leftRifle.activeSelf)
             {
                 leftHandSkeleton.localEulerAngles = new Vector3
                                        (leftHandSkeleton.localEulerAngles.x, 15, leftHandSkeleton.localEulerAngles.z);
@@ -149,10 +151,15 @@ public class AnimationController : MonoBehaviour
         if (transform.rotation == Quaternion.Euler(0, 135, 0))
         {
             rightRifle.SetActive(activeBool);
+            _anim.SetFloat("RifleIdleParam", 0);
+            _anim.SetBool("RifleAimingRot", !activeBool);
+
         }
         else if(transform.rotation == Quaternion.Euler(0, 225, 0))
         {
             leftRifle.SetActive(activeBool);
+            _anim.SetFloat("RifleIdleParam", 1);
+            _anim.SetBool("RifleAimingRot", activeBool);
         }
         if (tController.arrowLR == 2)
         {
@@ -182,6 +189,17 @@ public class AnimationController : MonoBehaviour
             rifleActive(true);
             _anim.SetBool("RifleActive", true);
             _anim.SetBool("PistolActive", false);
+        }
+    }
+    void characterAimingAnim()
+    {
+        if (GameManager.Instance.characterDetected)
+        {
+            _anim.SetBool("RifleAimingBool", true);           
+        }
+        else if(!GameManager.Instance.characterDetected)
+        {
+            _anim.SetBool("RifleAimingBool", false);
         }
     }
 }

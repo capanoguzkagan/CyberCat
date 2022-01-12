@@ -31,15 +31,18 @@ public class GameManager : MonoBehaviour
 	[Header("Target System")]
 	public ChainIKConstraint leftShoulder = null;
 	public ChainIKConstraint rightShoulder = null;
-	public ChainIKConstraint rifleRLArm = null;
-	public ChainIKConstraint rifleRRArm = null;
-	public ChainIKConstraint rifleLLArm = null;
-	public ChainIKConstraint rifleLRArm = null;
+	public TwoBoneIKConstraint rifleRLArm = null;
+	public MultiAimConstraint rifleRRArm = null;
+	public MultiAimConstraint rifleLLArm = null;
+	public TwoBoneIKConstraint rifleLRArm = null;
 	public MultiAimConstraint headRotation = null;
-	public Transform Rifletarget2=null;
-	public Transform rfLeftBone= null;
-	public Transform lfRightBone;
+	public MultiAimConstraint bodyRotationRight = null;
+	public MultiAimConstraint bodyRotationLeft = null;
+	//public Transform Rifletarget2=null;
+	//public Transform rfLeftBone= null;
+	//public Transform lfRightBone;
 
+	public bool characterDetected;
 	public float aiminigSpeed=1f;
 	bool rowbyrow = false;
 	public bool rollingAnim = false;
@@ -151,25 +154,27 @@ public class GameManager : MonoBehaviour
 		else if (tController.gunType == GunType.Rifle)			
         {
 			pistolWeightZero();
-			if (animationController.rightRifle.activeSelf)
-            {
-				Rifletarget2.position = new Vector3(lfRightBone.transform.position.x, lfRightBone.transform.position.y, lfRightBone.transform.position.z);
-			}
-			else if (animationController.leftRifle.activeSelf)
-            {
-				Rifletarget2.position = new Vector3(rfLeftBone.transform.position.x, rfLeftBone.transform.position.y, rfLeftBone.transform.position.z);
-			}
+			//if (animationController.rightRifle.activeSelf)
+   //         {
+			//	Rifletarget2.position = new Vector3(lfRightBone.transform.position.x, lfRightBone.transform.position.y, lfRightBone.transform.position.z);
+			//}
+			//else if (animationController.leftRifle.activeSelf)
+   //         {
+			//	Rifletarget2.position = new Vector3(rfLeftBone.transform.position.x, rfLeftBone.transform.position.y, rfLeftBone.transform.position.z);
+			//}
 			switch (mode)
             {
 				case RigAnimMode.inc:
-                    if (animationController.rightRifle.activeSelf)
+					characterDetected = true;					
+					if (animationController.rightRifle.activeSelf)
                     {
+						bodyRotationRight.weight = Mathf.Lerp(bodyRotationRight.weight, 1, aiminigSpeed);
 						rifleRRArm.weight = Mathf.Lerp(rifleRRArm.weight, 1, aiminigSpeed);
 						rifleRLArm.weight = Mathf.Lerp(rifleRLArm.weight, 1, aiminigSpeed);
 						headRotation.weight = .5f;
 						rifleLRArm.weight = 0;
 						rifleLLArm.weight = 0;
-
+						bodyRotationLeft.weight = Mathf.Lerp(bodyRotationLeft.weight, 0, aiminigSpeed);
 						if (rifleRRArm.weight > 0.8f)
 						{
 							StartCoroutine(waiting());
@@ -177,23 +182,28 @@ public class GameManager : MonoBehaviour
 					}
 					else if (animationController.leftRifle.activeSelf)
                     {
+						bodyRotationLeft.weight = Mathf.Lerp(bodyRotationLeft.weight, 1, aiminigSpeed);
 						rifleLRArm.weight = Mathf.Lerp(rifleRRArm.weight, 1, aiminigSpeed);
 						rifleLLArm.weight = Mathf.Lerp(rifleRLArm.weight, 1, aiminigSpeed);
 						headRotation.weight = .5f;
 						rifleRRArm.weight = 0;
 						rifleRLArm.weight = 0;
+						bodyRotationRight.weight = Mathf.Lerp(bodyRotationRight.weight, 0, aiminigSpeed);
 						if (rifleLLArm.weight > 0.8f)
                         {
 							StartCoroutine(waiting());
-                        }
+		                }
 					}
 					
 					break;
 				case RigAnimMode.dec:
+					characterDetected = false;
 					rifleRRArm.weight = Mathf.Lerp(rifleRRArm.weight, 0, aiminigSpeed*Time.deltaTime);
-					rifleRLArm.weight = Mathf.Lerp(rifleRLArm.weight, 0, aiminigSpeed * Time.deltaTime);
+					rifleRLArm.weight = Mathf.Lerp(rifleRLArm.weight, 0, aiminigSpeed*Time.deltaTime);
 					rifleLRArm.weight = Mathf.Lerp(rifleRRArm.weight, 0, aiminigSpeed*Time.deltaTime);
 					rifleLLArm.weight = Mathf.Lerp(rifleRLArm.weight, 0, aiminigSpeed*Time.deltaTime);
+					bodyRotationRight.weight = Mathf.Lerp(bodyRotationRight.weight, 0, aiminigSpeed*Time.deltaTime);
+					bodyRotationLeft.weight = Mathf.Lerp(bodyRotationLeft.weight, 0, aiminigSpeed*Time.deltaTime);
 					if (rifleRRArm.weight < 0.1f)
 					{
 						rifleWeightZero();
